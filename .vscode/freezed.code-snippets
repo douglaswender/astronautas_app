@@ -1,0 +1,38 @@
+{
+    "generate freezed state": {
+      "prefix": "gfstate",
+      "body": [
+        "import 'package:freezed_annotation/freezed_annotation.dart';",
+        "part '${TM_FILENAME_BASE}.freezed.dart';",
+        "@freezed",
+        "class ${1:DataClass}State with _$${1:DataClass}State {",
+        "\tfactory ${1:DataClass}State.regular() = ${1:DataClass}StateRegular;",
+        "\tfactory ${1:DataClass}State.loading() =  ${1:DataClass}StateLoading;",
+        "\tfactory ${1:DataClass}State.empty() =  ${1:DataClass}StateEmpty;",
+        "\tfactory ${1:DataClass}State.error() =  ${1:DataClass}StateError;",
+        "}"
+      ],
+      "description": "generate freezed state class"
+    },
+    "generate freezed event": {
+      "prefix": "gfevent",
+      "body": [
+        "import 'package:freezed_annotation/freezed_annotation.dart';",
+        "part '${TM_FILENAME_BASE}.freezed.dart';",
+        "@freezed",
+        "class ${1:DataClass}Event with _$${1:DataClass}Event {",
+        "}"
+      ],
+      "description": "generate freezed event class"
+    },
+    "New freezed state": {
+      "prefix": "nfstate",
+      "body": "factory ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}.${1:stateName}() = ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}${2/(.*)/${1:/capitalize}/};\n$3",
+      "description": "generate freezed state class"
+    },
+    "New freezed event": {
+      "prefix": "nfevent",
+      "body": "factory ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}.${1:eventName}() = ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}${2/(.)/${1:/capitalize}/};\n",
+      "description": "generate freezed event class"
+    }  
+  }
