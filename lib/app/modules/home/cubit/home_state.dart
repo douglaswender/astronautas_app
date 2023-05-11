@@ -8,4 +8,5 @@ class HomeState with _$HomeState {
   factory HomeState.empty() = HomeStateEmpty;
   factory HomeState.error() = HomeStateError;
   factory HomeState.unauthenticated() = HomeStateUnauthenticated;
+  factory HomeState.unavaliable() = HomeStateUnavailable;
 }

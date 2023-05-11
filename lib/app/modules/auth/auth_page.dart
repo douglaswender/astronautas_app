@@ -60,6 +60,7 @@ class AuthPage extends StatelessWidget {
                     textEditingController: controller.emailController,
                     labelText: 'Email',
                     hintText: 'Seu melhor email',
+                    keyboardType: TextInputType.emailAddress,
                     validator: (email) {
                       if (email == null || email.isEmpty) {
                         return 'Por favor, informe um email!';

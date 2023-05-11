@@ -6,6 +6,7 @@ import 'package:gold_express/app/modules/home/cubit/home_cubit.dart';
 import 'package:gold_express/app/modules/home/cubit/home_state.dart';
 import 'package:gold_express/app/widgets/button_widget.dart';
 import 'package:gold_express/app/widgets/loading_dialog.dart';
+import 'package:gold_express/app/widgets/text_field_widget.dart';
 
 class HomePage extends StatefulWidget {
   final HomeController controller;
@@ -46,8 +47,14 @@ class _HomePageState extends State<HomePage> {
                             ? 'assets/loja.png'
                             : 'assets/moto.png'),
                   ),
-                  accountName: Text(widget.controller.user.name ?? ''),
-                  accountEmail: Text(widget.controller.user.email ?? ''),
+                  accountName: Text(
+                    widget.controller.user.name ?? '',
+                    style: const TextStyle(color: AppColors.black),
+                  ),
+                  accountEmail: Text(
+                    widget.controller.user.email ?? '',
+                    style: const TextStyle(color: AppColors.black),
+                  ),
                 );
               },
             ),
@@ -62,7 +69,9 @@ class _HomePageState extends State<HomePage> {
                         title: Text(widget.controller.user.tipo != 'cliente'
                             ? 'Minhas entregas'
                             : 'Meus envios'),
-                        onTap: () {},
+                        onTap: () {
+                          Modular.to.pop();
+                        },
                       );
                     },
                   )
@@ -76,10 +85,6 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => widget.controller.logout(),
               ),
             )
-            // DrawerHeader(
-            //   decoration: BoxDecoration(color: AppColors.primary),
-            //   child: Text('GOLD EXPRESS'),
-            // ),
           ],
         ),
       ),
@@ -96,6 +101,32 @@ class _HomePageState extends State<HomePage> {
                   barrierDismissible: false,
                   builder: (context) => const LoadingDialog());
             },
+            unavaliable: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Center(
+                    child: Icon(Icons.dangerous),
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text(
+                          'Infelizmente não temos entregadores disponíveis no momento, acesse a aba "entregadores disponíveis" para conferir!'),
+                    ],
+                  ),
+                  actions: [
+                    ButtonWidget(
+                      label: 'Ok',
+                      onPressed: () {
+                        Modular.to.pop();
+                        Modular.to.pop();
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
             unauthenticated: () => Modular.to.pushReplacementNamed('/auth/'),
             regular: () {
               Modular.to.pop();
@@ -103,7 +134,133 @@ class _HomePageState extends State<HomePage> {
             orElse: () {},
           );
         },
-        child: Container(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<HomeController, HomeState>(
+                  bloc: widget.controller,
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      regular: () {
+                        if (widget.controller.user.tipo == 'cliente') {
+                          return ButtonWidget(
+                            label: 'Solicitar corrida',
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  content: Form(
+                                    key: widget.controller.formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        TextFieldWidget(
+                                          labelText: 'Endereço de Destino',
+                                          textEditingController: widget
+                                              .controller.destinoController,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Por favor, informe um destino';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        ButtonWidget(
+                                          label: 'Enviar',
+                                          onPressed: () async {
+                                            if (widget.controller.formKey
+                                                .currentState!
+                                                .validate()) {
+                                              await widget.controller
+                                                  .publishDelivery();
+                                              Modular.to.pop();
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  //actionsAlignment: MainAxisAlignment.center,
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return const Text('Não há corridas no momento');
+                        }
+                      },
+                      orElse: () {
+                        return const SizedBox();
+                      },
+                    );
+                  },
+                ),
+              ],
+            )),
+            Expanded(
+              child: BlocBuilder<HomeController, HomeState>(
+                bloc: widget.controller,
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    regular: () => Column(
+                      children: [
+                        const Text('Últimas corridas:'),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: widget.controller.lastRequests.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () {},
+                                title: BlocBuilder<HomeController, HomeState>(
+                                  bloc: widget.controller,
+                                  builder: (context, state) {
+                                    return Text(
+                                        widget.controller.user.tipo == 'cliente'
+                                            ? widget
+                                                .controller
+                                                .lastRequests[index]
+                                                .motoboy!
+                                                .name!
+                                            : widget
+                                                .controller
+                                                .lastRequests[index]
+                                                .cliente!
+                                                .name!);
+                                  },
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(widget.controller.lastRequests[index]
+                                        .enderecoDestino!),
+                                    Text(
+                                        'Valor: R\$ ${widget.controller.lastRequests[index].valorEntrega!.toStringAsFixed(2).replaceAll('.', ',')}'),
+                                    Text(
+                                        'Status: ${widget.controller.lastRequests[index].status!}'),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    orElse: () => const SizedBox(),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

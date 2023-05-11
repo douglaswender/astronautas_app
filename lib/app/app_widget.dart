@@ -10,7 +10,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp.router(
       title: 'Gold Express',
       theme: ThemeData(
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.openSansTextTheme(),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(0xFFFFD700, {
             50: Color(0xFFFFFAE0),

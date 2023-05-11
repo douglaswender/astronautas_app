@@ -23,6 +23,7 @@ mixin _$HomeState {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +33,7 @@ mixin _$HomeState {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +43,7 @@ mixin _$HomeState {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +54,7 @@ mixin _$HomeState {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +64,7 @@ mixin _$HomeState {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +74,7 @@ mixin _$HomeState {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -134,6 +140,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) {
     return regular();
   }
@@ -146,6 +153,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) {
     return regular?.call();
   }
@@ -158,6 +166,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) {
     if (regular != null) {
@@ -174,6 +183,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) {
     return regular(this);
   }
@@ -186,6 +196,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) {
     return regular?.call(this);
   }
@@ -198,6 +209,7 @@ class _$HomeStateRegular implements HomeStateRegular {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) {
     if (regular != null) {
@@ -254,6 +266,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) {
     return loading();
   }
@@ -266,6 +279,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) {
     return loading?.call();
   }
@@ -278,6 +292,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -294,6 +309,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) {
     return loading(this);
   }
@@ -306,6 +322,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) {
     return loading?.call(this);
   }
@@ -318,6 +335,7 @@ class _$HomeStateLoading implements HomeStateLoading {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -374,6 +392,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) {
     return empty();
   }
@@ -386,6 +405,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) {
     return empty?.call();
   }
@@ -398,6 +418,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -414,6 +435,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) {
     return empty(this);
   }
@@ -426,6 +448,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) {
     return empty?.call(this);
   }
@@ -438,6 +461,7 @@ class _$HomeStateEmpty implements HomeStateEmpty {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -494,6 +518,7 @@ class _$HomeStateError implements HomeStateError {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) {
     return error();
   }
@@ -506,6 +531,7 @@ class _$HomeStateError implements HomeStateError {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) {
     return error?.call();
   }
@@ -518,6 +544,7 @@ class _$HomeStateError implements HomeStateError {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -534,6 +561,7 @@ class _$HomeStateError implements HomeStateError {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) {
     return error(this);
   }
@@ -546,6 +574,7 @@ class _$HomeStateError implements HomeStateError {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) {
     return error?.call(this);
   }
@@ -558,6 +587,7 @@ class _$HomeStateError implements HomeStateError {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -615,6 +645,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     required TResult Function() empty,
     required TResult Function() error,
     required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
   }) {
     return unauthenticated();
   }
@@ -627,6 +658,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     TResult? Function()? empty,
     TResult? Function()? error,
     TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
   }) {
     return unauthenticated?.call();
   }
@@ -639,6 +671,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     TResult Function()? empty,
     TResult Function()? error,
     TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -655,6 +688,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     required TResult Function(HomeStateEmpty value) empty,
     required TResult Function(HomeStateError value) error,
     required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
   }) {
     return unauthenticated(this);
   }
@@ -667,6 +701,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     TResult? Function(HomeStateEmpty value)? empty,
     TResult? Function(HomeStateError value)? error,
     TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
   }) {
     return unauthenticated?.call(this);
   }
@@ -679,6 +714,7 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
     TResult Function(HomeStateEmpty value)? empty,
     TResult Function(HomeStateError value)? error,
     TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -690,4 +726,130 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
 
 abstract class HomeStateUnauthenticated implements HomeState {
   factory HomeStateUnauthenticated() = _$HomeStateUnauthenticated;
+}
+
+/// @nodoc
+abstract class _$$HomeStateUnavailableCopyWith<$Res> {
+  factory _$$HomeStateUnavailableCopyWith(_$HomeStateUnavailable value,
+          $Res Function(_$HomeStateUnavailable) then) =
+      __$$HomeStateUnavailableCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HomeStateUnavailableCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$HomeStateUnavailable>
+    implements _$$HomeStateUnavailableCopyWith<$Res> {
+  __$$HomeStateUnavailableCopyWithImpl(_$HomeStateUnavailable _value,
+      $Res Function(_$HomeStateUnavailable) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$HomeStateUnavailable implements HomeStateUnavailable {
+  _$HomeStateUnavailable();
+
+  @override
+  String toString() {
+    return 'HomeState.unavaliable()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$HomeStateUnavailable);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() regular,
+    required TResult Function() loading,
+    required TResult Function() empty,
+    required TResult Function() error,
+    required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
+  }) {
+    return unavaliable();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? regular,
+    TResult? Function()? loading,
+    TResult? Function()? empty,
+    TResult? Function()? error,
+    TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
+  }) {
+    return unavaliable?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? regular,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function()? error,
+    TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (unavaliable != null) {
+      return unavaliable();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateRegular value) regular,
+    required TResult Function(HomeStateLoading value) loading,
+    required TResult Function(HomeStateEmpty value) empty,
+    required TResult Function(HomeStateError value) error,
+    required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
+  }) {
+    return unavaliable(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateRegular value)? regular,
+    TResult? Function(HomeStateLoading value)? loading,
+    TResult? Function(HomeStateEmpty value)? empty,
+    TResult? Function(HomeStateError value)? error,
+    TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
+  }) {
+    return unavaliable?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateRegular value)? regular,
+    TResult Function(HomeStateLoading value)? loading,
+    TResult Function(HomeStateEmpty value)? empty,
+    TResult Function(HomeStateError value)? error,
+    TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (unavaliable != null) {
+      return unavaliable(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeStateUnavailable implements HomeState {
+  factory HomeStateUnavailable() = _$HomeStateUnavailable;
 }
