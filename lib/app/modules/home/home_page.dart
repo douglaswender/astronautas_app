@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:gold_express/app/core/app_colors.dart';
+import 'package:gold_express/app/modules/home/cubit/delivery_model.dart';
 import 'package:gold_express/app/modules/home/cubit/home_cubit.dart';
 import 'package:gold_express/app/modules/home/cubit/home_state.dart';
 import 'package:gold_express/app/widgets/button_widget.dart';
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                             : 'assets/moto.png'),
                   ),
                   accountName: Text(
-                    widget.controller.user.name ?? '',
+                    widget.controller.user.tipo == 'cliente' ? '' : '',
                     style: const TextStyle(color: AppColors.black),
                   ),
                   accountEmail: Text(
@@ -89,7 +91,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Gold Express'),
+        title: const Text(
+          'Gold Express',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: BlocListener<HomeController, HomeState>(
         bloc: widget.controller,
@@ -178,17 +183,15 @@ class _HomePageState extends State<HomePage> {
                                             if (widget.controller.formKey
                                                 .currentState!
                                                 .validate()) {
+                                              Modular.to.pop();
                                               await widget.controller
                                                   .publishDelivery();
-                                              Modular.to.pop();
                                             }
                                           },
                                         ),
                                       ],
                                     ),
                                   ),
-
-                                  //actionsAlignment: MainAxisAlignment.center,
                                 ),
                               );
                             },
@@ -206,59 +209,66 @@ class _HomePageState extends State<HomePage> {
               ],
             )),
             Expanded(
-              child: BlocBuilder<HomeController, HomeState>(
-                bloc: widget.controller,
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    regular: () => Column(
-                      children: [
-                        const Text('Últimas corridas:'),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: widget.controller.lastRequests.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () {},
-                                title: BlocBuilder<HomeController, HomeState>(
-                                  bloc: widget.controller,
-                                  builder: (context, state) {
-                                    return Text(
-                                        widget.controller.user.tipo == 'cliente'
-                                            ? widget
-                                                .controller
-                                                .lastRequests[index]
-                                                .motoboy!
-                                                .name!
-                                            : widget
-                                                .controller
-                                                .lastRequests[index]
-                                                .cliente!
-                                                .name!);
-                                  },
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(widget.controller.lastRequests[index]
-                                        .enderecoDestino!),
-                                    Text(
-                                        'Valor: R\$ ${widget.controller.lastRequests[index].valorEntrega!.toStringAsFixed(2).replaceAll('.', ',')}'),
-                                    Text(
-                                        'Status: ${widget.controller.lastRequests[index].status!}'),
-                                  ],
-                                ),
+                flex: 3,
+                child: Column(
+                  children: [
+                    const Text('Últimas corridas:'),
+                    Expanded(
+                      child: BlocBuilder<HomeController, HomeState>(
+                        bloc: widget.controller,
+                        builder: (context, state) {
+                          return StreamBuilder<QuerySnapshot>(
+                            stream: widget.controller.lastRequestStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text('Há algo errado aqui');
+                              }
+
+                              if (snapshot.connectionState ==
+                                      ConnectionState.waiting ||
+                                  !snapshot.hasData) {
+                                return const Text('Carregando...');
+                              }
+
+                              return ListView(
+                                children: snapshot.data?.docs.map((e) {
+                                      DeliveryModel data =
+                                          DeliveryModel.fromMap(
+                                              e.data() as Map<String, dynamic>);
+                                      return ListTile(
+                                        onTap: () {},
+                                        title: BlocBuilder<HomeController,
+                                            HomeState>(
+                                          bloc: widget.controller,
+                                          builder: (context, state) {
+                                            return Text(
+                                                widget.controller.user.tipo ==
+                                                        'cliente'
+                                                    ? data.motoboy!.nome
+                                                    : data.cliente!.nome);
+                                          },
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(data.enderecoDestino!),
+                                            Text(
+                                                'Valor: R\$ ${data.valorEntrega!.toStringAsFixed(2).replaceAll('.', ',')}'),
+                                            Text('Status: ${data.status!}'),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList() ??
+                                    [],
                               );
                             },
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
-                    orElse: () => const SizedBox(),
-                  );
-                },
-              ),
-            )
+                  ],
+                )),
           ],
         ),
       ),

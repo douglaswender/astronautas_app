@@ -22,6 +22,7 @@ class AuthPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Login'),
       ),
+
       body: BlocListener<AuthBloc, AuthState>(
         bloc: controller,
         listener: (context, state) {
@@ -38,13 +39,9 @@ class AuthPage extends StatelessWidget {
             orElse: () {},
           );
         },
-        child: SingleChildScrollView(
-            child: ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top -
-                  AppBar().preferredSize.height),
-          child: Padding(
+        child: Align(
+          child: SingleChildScrollView(
+              child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
               key: controller.formKey,
@@ -61,6 +58,7 @@ class AuthPage extends StatelessWidget {
                     labelText: 'Email',
                     hintText: 'Seu melhor email',
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     validator: (email) {
                       if (email == null || email.isEmpty) {
                         return 'Por favor, informe um email!';
@@ -75,29 +73,37 @@ class AuthPage extends StatelessWidget {
                     labelText: 'Senha',
                     obscureText: true,
                   ),
+                  ButtonWidget(
+                    label: 'Entrar',
+                    onPressed: () {
+                      if (controller.formKey.currentState!.validate()) {
+                        controller.login();
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
-          ),
-        )),
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: ButtonWidget(
-                label: 'Entrar',
-                onPressed: () {
-                  if (controller.formKey.currentState!.validate()) {
-                    controller.login();
-                  }
-                },
-              ),
-            ),
-          ],
+          )),
         ),
       ),
+      // bottomSheet: Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: Row(
+      //     children: [
+      //       Expanded(
+      //         child: ButtonWidget(
+      //           label: 'Entrar',
+      //           onPressed: () {
+      //             if (controller.formKey.currentState!.validate()) {
+      //               controller.login();
+      //             }
+      //           },
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

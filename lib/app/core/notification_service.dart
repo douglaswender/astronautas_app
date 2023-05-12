@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:gold_express/firebase_options.dart';
+import 'package:gold_express/app/core/app_colors.dart';
+import 'package:http/http.dart' as http;
 
 class NotificationService {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -12,7 +14,7 @@ class NotificationService {
     await messaging.requestPermission();
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('drawable/ic_launcher_round');
+        AndroidInitializationSettings('drawable/ic_stat');
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings();
 
@@ -53,11 +55,15 @@ class NotificationService {
   static void displayNotification(
       {required String title, required String body}) async {
     const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
+        AndroidNotificationDetails(
+      'high_importance_channel',
+      'high_importance_channel',
+      channelDescription: 'high_importance_channel',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+      color: AppColors.primary,
+    );
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
     await flutterLocalNotificationsPlugin
@@ -80,5 +86,40 @@ class NotificationService {
       }
     });
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  }
+
+  static Future<void> sendUserNotification({
+    required List tokens,
+    String? title,
+    required String body,
+  }) async {
+    final rc = FirebaseRemoteConfig.instance;
+    await rc.fetchAndActivate();
+    final messagingToken = rc.getString('messaging_token');
+    for (String token in tokens) {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: {
+          'Authorization': 'key=$messagingToken',
+          'Content-Type': 'application/json',
+        },
+        body: '''{
+          "priority": "high",
+          "data": {
+            "click_action": "NOTIFICATION_CLICK",
+            "status": "done",
+            "body": "$body",
+            "title": "${title ?? ''}"
+          },
+          "notification": {
+            "body": "$body",
+            "title": "${title ?? ''}",
+            "android_channel_id": "high_importance_channel"
+          },
+          "to": "$token",
+          "direct_boot_ok" : true
+        }''',
+      );
+    }
   }
 }

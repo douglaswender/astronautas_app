@@ -1,28 +1,34 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:gold_express/app/modules/home/cubit/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:gold_express/app/modules/home/cubit/cliente_model.dart';
+import 'package:gold_express/app/modules/home/cubit/motoboy_model.dart';
 
 class DeliveryModel {
   final String? enderecoDestino;
   final String? status;
   final double? valorEntrega;
-  final UserModel? motoboy;
-  final UserModel? cliente;
+  final MotoboyModel? motoboy;
+  final ClienteModel? cliente;
+  final Timestamp timestamp;
   DeliveryModel({
     this.enderecoDestino,
     this.status,
     this.valorEntrega,
     this.motoboy,
     this.cliente,
+    required this.timestamp,
   });
 
   DeliveryModel copyWith({
     String? enderecoDestino,
     String? status,
     double? valorEntrega,
-    UserModel? motoboy,
-    UserModel? cliente,
+    MotoboyModel? motoboy,
+    ClienteModel? cliente,
+    Timestamp? timestamp,
   }) {
     return DeliveryModel(
       enderecoDestino: enderecoDestino ?? this.enderecoDestino,
@@ -30,6 +36,7 @@ class DeliveryModel {
       valorEntrega: valorEntrega ?? this.valorEntrega,
       motoboy: motoboy ?? this.motoboy,
       cliente: cliente ?? this.cliente,
+      timestamp: timestamp ?? this.timestamp,
     );
   }
 
@@ -40,18 +47,24 @@ class DeliveryModel {
       'valorEntrega': valorEntrega,
       'motoboy': motoboy?.toMap(),
       'cliente': cliente?.toMap(),
+      'timestamp': timestamp,
     };
   }
 
   factory DeliveryModel.fromMap(Map<String, dynamic> map) {
     return DeliveryModel(
-      enderecoDestino: map['endereco_destino'] != null
-          ? map['endereco_destino'] as String
+      enderecoDestino: map['enderecoDestino'] != null
+          ? map['enderecoDestino'] as String
           : null,
       status: map['status'] != null ? map['status'] as String : null,
-      valorEntrega: map['valor_entrega'] != null
-          ? double.tryParse(map['valor_entrega'].toString())
+      valorEntrega: double.tryParse(map['valorEntrega'].toString()),
+      motoboy: map['motoboy'] != null
+          ? MotoboyModel.fromMap(map['motoboy'] as Map<String, dynamic>)
           : null,
+      cliente: map['cliente'] != null
+          ? ClienteModel.fromMap(map['cliente'] as Map<String, dynamic>)
+          : null,
+      timestamp: map['timestamp'],
     );
   }
 
@@ -62,7 +75,7 @@ class DeliveryModel {
 
   @override
   String toString() {
-    return 'DeliveryModel(enderecoDestino: $enderecoDestino, status: $status, valorEntrega: $valorEntrega, motoboy: $motoboy, cliente: $cliente)';
+    return 'DeliveryModel(enderecoDestino: $enderecoDestino, status: $status, valorEntrega: $valorEntrega, motoboy: $motoboy, cliente: $cliente, timestamp: $timestamp)';
   }
 
   @override
@@ -73,7 +86,8 @@ class DeliveryModel {
         other.status == status &&
         other.valorEntrega == valorEntrega &&
         other.motoboy == motoboy &&
-        other.cliente == cliente;
+        other.cliente == cliente &&
+        other.timestamp == timestamp;
   }
 
   @override
@@ -82,6 +96,7 @@ class DeliveryModel {
         status.hashCode ^
         valorEntrega.hashCode ^
         motoboy.hashCode ^
-        cliente.hashCode;
+        cliente.hashCode ^
+        timestamp.hashCode;
   }
 }
