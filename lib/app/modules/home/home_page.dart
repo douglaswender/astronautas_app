@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gold_express/app/core/app_colors.dart';
 import 'package:gold_express/app/modules/home/cubit/delivery_model.dart';
 import 'package:gold_express/app/modules/home/cubit/home_cubit.dart';
@@ -50,12 +51,38 @@ class _HomePageState extends State<HomePage> {
                             : 'assets/moto.png'),
                   ),
                   accountName: Text(
-                    widget.controller.user.tipo == 'cliente' ? '' : '',
+                    widget.controller.user.nome ?? '',
                     style: const TextStyle(color: AppColors.black),
                   ),
-                  accountEmail: Text(
-                    widget.controller.user.email ?? '',
-                    style: const TextStyle(color: AppColors.black),
+                  accountEmail: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.controller.user.email ?? '',
+                        style: const TextStyle(color: AppColors.black),
+                      ),
+                      if (widget.controller.user.tipo != 'cliente')
+                        SizedBox(
+                          height: 32,
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Switch.adaptive(
+                              splashRadius: 0,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              value: widget.controller.trabalhando,
+                              trackColor: MaterialStateProperty.all(
+                                  AppColors.secondary),
+                              activeColor: AppColors.green,
+                              inactiveThumbColor: AppColors.red,
+                              onChanged: (value) async {
+                                await widget.controller.changeStatus();
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        )
+                    ],
                   ),
                 );
               },
@@ -142,62 +169,69 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-                child: Column(
+            Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(
+                  height: 12,
+                ),
                 BlocBuilder<HomeController, HomeState>(
                   bloc: widget.controller,
                   builder: (context, state) {
                     return state.maybeWhen(
                       regular: () {
                         if (widget.controller.user.tipo == 'cliente') {
-                          return ButtonWidget(
-                            label: 'Solicitar corrida',
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: Form(
-                                    key: widget.controller.formKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        TextFieldWidget(
-                                          labelText: 'Endereço de Destino',
-                                          textEditingController: widget
-                                              .controller.destinoController,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Por favor, informe um destino';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        ButtonWidget(
-                                          label: 'Enviar',
-                                          onPressed: () async {
-                                            if (widget.controller.formKey
-                                                .currentState!
-                                                .validate()) {
-                                              Modular.to.pop();
-                                              await widget.controller
-                                                  .publishDelivery();
-                                            }
-                                          },
-                                        ),
-                                      ],
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: ButtonWidget(
+                              label: 'Solicitar corrida',
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: Form(
+                                      key: widget.controller.formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          TextFieldWidget(
+                                            labelText: 'Endereço de Destino',
+                                            textEditingController: widget
+                                                .controller.destinoController,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'Por favor, informe um destino';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                          ButtonWidget(
+                                            label: 'Enviar',
+                                            onPressed: () async {
+                                              if (widget.controller.formKey
+                                                  .currentState!
+                                                  .validate()) {
+                                                Modular.to.pop();
+                                                await widget.controller
+                                                    .publishDelivery();
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           );
                         } else {
-                          return const Text('Não há corridas no momento');
+                          return const SizedBox();
                         }
                       },
                       orElse: () {
@@ -207,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ],
-            )),
+            ),
             Expanded(
                 flex: 3,
                 child: Column(
@@ -221,13 +255,18 @@ class _HomePageState extends State<HomePage> {
                             stream: widget.controller.lastRequestStream,
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
-                                return const Text('Há algo errado aqui');
+                                return const Text('Há algo errado aqui!');
                               }
 
                               if (snapshot.connectionState ==
                                       ConnectionState.waiting ||
                                   !snapshot.hasData) {
-                                return const Text('Carregando...');
+                                return const Center(
+                                  child: SpinKitPouringHourGlassRefined(
+                                    color: AppColors.primary,
+                                    size: 50,
+                                  ),
+                                );
                               }
 
                               return ListView(
@@ -236,7 +275,6 @@ class _HomePageState extends State<HomePage> {
                                           DeliveryModel.fromMap(
                                               e.data() as Map<String, dynamic>);
                                       return ListTile(
-                                        onTap: () {},
                                         title: BlocBuilder<HomeController,
                                             HomeState>(
                                           bloc: widget.controller,
@@ -248,6 +286,24 @@ class _HomePageState extends State<HomePage> {
                                                     : data.cliente!.nome);
                                           },
                                         ),
+                                        trailing: widget.controller.user.tipo !=
+                                                    'cliente' &&
+                                                data.status == 'aguardando'
+                                            ? ButtonWidget(
+                                                label: 'Buscar',
+                                                onPressed: () {},
+                                              )
+                                            : widget.controller.user.tipo !=
+                                                        'cliente' &&
+                                                    data.status == 'buscando'
+                                                ? ButtonWidget(
+                                                    label: 'Finalizar',
+                                                    onPressed: () {},
+                                                  )
+                                                : ButtonWidget(
+                                                    label: data.status ?? '',
+                                                    onPressed: null,
+                                                  ),
                                         subtitle: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,

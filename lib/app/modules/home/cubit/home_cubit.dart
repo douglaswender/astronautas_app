@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gold_express/app/core/notification_service.dart';
 import 'package:gold_express/app/modules/home/cubit/delivery_model.dart';
 import 'package:gold_express/app/modules/home/cubit/home_state.dart';
+import 'package:gold_express/app/modules/home/cubit/motoboy_model.dart';
 import 'package:gold_express/app/modules/home/cubit/user_model.dart';
 import 'package:ntp/ntp.dart';
 
@@ -18,6 +19,8 @@ class HomeController extends Cubit<HomeState> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController destinoController = TextEditingController();
   Stream<QuerySnapshot>? lastRequestStream;
+  MotoboyModel? motoboy;
+  bool trabalhando = false;
 
   Future<void> logout() async {
     emit(HomeState.loading());
@@ -37,8 +40,13 @@ class HomeController extends Cubit<HomeState> {
     emit(HomeState.loading());
     lastRequests.clear();
     final email = auth.currentUser?.email;
-    final userType = await db.collection('usuarios').doc(email).get();
-    if (userType.data()!['tipo'] == 'cliente') {
+    final userType = await db
+        .collection('usuarios')
+        .doc(email)
+        .get()
+        .then((value) => value.data());
+    user = user.copyWith(nome: userType!['nome']);
+    if (userType['tipo'] == 'cliente') {
       final cliente = await db
           .collection('clientes')
           .doc(email)
@@ -48,22 +56,8 @@ class HomeController extends Cubit<HomeState> {
           .collection('entregas')
           .where('cliente', isEqualTo: cliente)
           .orderBy('timestamp', descending: true)
+          .limit(10)
           .snapshots();
-      // await db
-      //     .collection('entregas')
-      //     .where('cliente', isEqualTo: email)
-      //     .orderBy('timestamp', descending: true)
-      //     .get()
-      //     .then((value) async {
-      //   for (var e in value.docs) {
-      //     final motoboy =
-      //         await db.collection('motoboys').doc(e.data()['motoboy']).get();
-      //     lastRequests.add(DeliveryModel.fromMap(e.data()).copyWith(
-      //         cliente: user,
-      //         motoboy: UserModel.fromMap(motoboy.data()!)
-      //             .copyWith(email: e.data()['motoboy'])));
-      //   }
-      // });
     } else {
       await db
           .collection('motoboys')
@@ -72,35 +66,44 @@ class HomeController extends Cubit<HomeState> {
           .then((value) => user = user.copyWith(
                 email: email,
               ));
-      final motoboy = await db
+      motoboy = await db
           .collection('motoboys')
           .doc(email)
           .get()
-          .then((value) => value.data());
+          .then((value) => MotoboyModel.fromMap(value.data()!));
+      trabalhando = motoboy?.trabalhando ?? false;
+
       lastRequestStream = db
           .collection('entregas')
-          .where('motoboy', isEqualTo: motoboy)
+          .where('motoboy', isEqualTo: motoboy!.toMapDelivery())
           .orderBy('timestamp', descending: true)
+          .limit(10)
           .snapshots();
-      // await db
-      //     .collection('entregas')
-      //     .where('motoboy', isEqualTo: email)
-      //     .orderBy('timestamp', descending: true)
-      //     .get()
-      //     .then((value) async {
-      //   for (var e in value.docs) {
-      //     final cliente =
-      //         await db.collection('clientes').doc(e.data()['cliente']).get();
-      //     lastRequests.add(DeliveryModel.fromMap(e.data()).copyWith(
-      //         cliente: UserModel.fromMap(cliente.data()!)
-      //             .copyWith(email: e.data()['cliente']),
-      //         motoboy: Motoboy));
-      //   }
-      // });
-      // .then((value) => value.docs
-      //     .map((e) => lastRequests.add(DeliveryModel.fromMap(e.data()))));
     }
-    user = user.copyWith(email: email, tipo: userType.data()!['tipo']);
+    user = user.copyWith(email: email, tipo: userType['tipo']);
+    emit(HomeState.regular());
+  }
+
+  Future<void> changeStatus() async {
+    emit(HomeState.loading());
+    await db.collection('motoboys').doc(user.email).update({
+      "trabalhando": !trabalhando,
+    });
+
+    final currentList = await db
+        .collection('fila')
+        .doc('ouro-preto')
+        .get()
+        .then((value) => value.data()?['fila'] as List);
+    if (!trabalhando && !currentList.contains(user.email)) {
+      currentList.add(user.email);
+    } else {
+      currentList.remove(user.email);
+    }
+    await db.collection('fila').doc('ouro-preto').set({
+      'fila': currentList,
+    });
+    trabalhando = !trabalhando;
     emit(HomeState.regular());
   }
 
@@ -123,7 +126,7 @@ class HomeController extends Cubit<HomeState> {
           .collection('motoboys')
           .doc(first)
           .get()
-          .then((value) => value.data());
+          .then((value) => MotoboyModel.fromMap(value.data()!));
 
       final cliente = await db
           .collection('clientes')
@@ -134,7 +137,7 @@ class HomeController extends Cubit<HomeState> {
       await db.collection('entregas').add({
         'cliente': cliente,
         'enderecoDestino': destinoController.text,
-        'motoboy': motoboy,
+        'motoboy': motoboy.toMapDelivery(),
         'status': 'aguardando',
         'valorEntrega': 6,
         'timestamp': await NTP.now(),

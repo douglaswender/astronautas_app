@@ -1,26 +1,30 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 
 class UserModel {
   final String? email;
   final String? tipo;
+  final String? nome;
   final List<String>? tokens;
   UserModel({
     this.email,
     this.tipo,
+    this.nome,
     this.tokens,
   });
 
   UserModel copyWith({
     String? email,
     String? tipo,
+    String? nome,
     List<String>? tokens,
   }) {
     return UserModel(
       email: email ?? this.email,
       tipo: tipo ?? this.tipo,
+      nome: nome ?? this.nome,
       tokens: tokens ?? this.tokens,
     );
   }
@@ -29,6 +33,7 @@ class UserModel {
     return <String, dynamic>{
       'email': email,
       'tipo': tipo,
+      'nome': nome,
       'tokens': tokens,
     };
   }
@@ -37,6 +42,7 @@ class UserModel {
     return UserModel(
       email: map['email'] != null ? map['email'] as String : null,
       tipo: map['tipo'] != null ? map['tipo'] as String : null,
+      nome: map['nome'] != null ? map['nome'] as String : null,
       tokens: map['tokens'],
     );
   }
@@ -47,18 +53,22 @@ class UserModel {
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'UserModel(email: $email, tipo: $tipo, tokens: $tokens)';
+  String toString() {
+    return 'UserModel(email: $email, tipo: $tipo, nome: $nome, tokens: $tokens)';
+  }
 
   @override
   bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
     return other.email == email &&
         other.tipo == tipo &&
+        other.nome == nome &&
         listEquals(other.tokens, tokens);
   }
 
   @override
-  int get hashCode => email.hashCode ^ tipo.hashCode ^ tokens.hashCode;
+  int get hashCode {
+    return email.hashCode ^ tipo.hashCode ^ nome.hashCode ^ tokens.hashCode;
+  }
 }

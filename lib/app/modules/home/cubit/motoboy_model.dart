@@ -6,13 +6,13 @@ class MotoboyModel {
   final String nome;
   final String telefone;
   final String tipoDocumento;
-  final bool trabalhando;
+  final bool? trabalhando;
   MotoboyModel({
     required this.documento,
     required this.nome,
     required this.telefone,
     required this.tipoDocumento,
-    required this.trabalhando,
+    this.trabalhando,
   });
 
   MotoboyModel copyWith({
@@ -41,13 +41,31 @@ class MotoboyModel {
     };
   }
 
+  Map<String, dynamic> toMapDelivery() {
+    return <String, dynamic>{
+      'documento': documento,
+      'nome': nome,
+      'telefone': telefone,
+      'tipoDocumento': tipoDocumento,
+    };
+  }
+
   factory MotoboyModel.fromMap(Map<String, dynamic> map) {
     return MotoboyModel(
-      documento: map['documento'] as String,
-      nome: map['nome'] as String,
-      telefone: map['telefone'] as String,
-      tipoDocumento: map['tipoDocumento'] as String,
-      trabalhando: map['trabalhando'] as bool,
+      documento: map['documento'],
+      nome: map['nome'],
+      telefone: map['telefone'],
+      tipoDocumento: map['tipoDocumento'],
+      trabalhando: map['trabalhando'],
+    );
+  }
+
+  factory MotoboyModel.fromMapDelivery(Map<String, dynamic> map) {
+    return MotoboyModel(
+      documento: map['documento'],
+      nome: map['nome'],
+      telefone: map['telefone'],
+      tipoDocumento: map['tipoDocumento'],
     );
   }
 
