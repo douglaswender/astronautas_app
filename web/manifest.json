@@ -1,6 +1,6 @@
 {
-    "name": "gold_express",
-    "short_name": "gold_express",
+    "name": "astronautas_app",
+    "short_name": "astronautas_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:gold_express/app/modules/home/cubit/cliente_model.dart';
-import 'package:gold_express/app/modules/home/cubit/motoboy_model.dart';
+import 'package:astronautas_app/app/modules/home/cubit/cliente_model.dart';
+import 'package:astronautas_app/app/modules/home/cubit/motoboy_model.dart';
 
 class DeliveryModel {
   final String? enderecoDestino;

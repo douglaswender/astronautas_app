@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:gold_express/app/core/notification_service.dart';
-import 'package:gold_express/app/modules/home/cubit/delivery_model.dart';
-import 'package:gold_express/app/modules/home/cubit/home_state.dart';
-import 'package:gold_express/app/modules/home/cubit/motoboy_model.dart';
-import 'package:gold_express/app/modules/home/cubit/user_model.dart';
+import 'package:astronautas_app/app/core/notification_service.dart';
+import 'package:astronautas_app/app/modules/home/cubit/delivery_model.dart';
+import 'package:astronautas_app/app/modules/home/cubit/home_state.dart';
+import 'package:astronautas_app/app/modules/home/cubit/motoboy_model.dart';
+import 'package:astronautas_app/app/modules/home/cubit/user_model.dart';
 import 'package:ntp/ntp.dart';
 
 class HomeController extends Cubit<HomeState> {

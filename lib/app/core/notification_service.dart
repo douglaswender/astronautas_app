@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:gold_express/app/core/app_colors.dart';
+import 'package:astronautas_app/app/core/app_colors.dart';
 import 'package:http/http.dart' as http;
 
 class NotificationService {
@@ -103,7 +103,8 @@ class NotificationService {
           'Authorization': 'key=$messagingToken',
           'Content-Type': 'application/json',
         },
-        body: '''{
+        body:
+            '''{
           "priority": "high",
           "data": {
             "click_action": "NOTIFICATION_CLICK",

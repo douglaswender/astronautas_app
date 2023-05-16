@@ -2,11 +2,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:gold_express/app/modules/auth/controller/auth_cubit.dart';
-import 'package:gold_express/app/modules/auth/controller/auth_state.dart';
-import 'package:gold_express/app/widgets/button_widget.dart';
-import 'package:gold_express/app/widgets/loading_dialog.dart';
-import 'package:gold_express/app/widgets/text_field_widget.dart';
+import 'package:astronautas_app/app/modules/auth/controller/auth_cubit.dart';
+import 'package:astronautas_app/app/modules/auth/controller/auth_state.dart';
+import 'package:astronautas_app/app/widgets/button_widget.dart';
+import 'package:astronautas_app/app/widgets/loading_dialog.dart';
+import 'package:astronautas_app/app/widgets/text_field_widget.dart';
 
 class AuthPage extends StatelessWidget {
   final AuthBloc controller;

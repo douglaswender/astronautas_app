@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gold_express/app/core/app_colors.dart';
+import 'package:astronautas_app/app/core/app_colors.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog({super.key});

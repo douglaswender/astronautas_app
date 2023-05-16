@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gold_express/app/core/app_colors.dart';
+import 'package:astronautas_app/app/core/app_colors.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class TextFieldWidget extends StatefulWidget {

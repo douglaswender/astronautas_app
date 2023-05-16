@@ -1,4 +1,4 @@
-package br.dev.douglaswender.gold_express
+package br.dev.douglaswender.astronautas_app
 
 import io.flutter.embedding.android.FlutterActivity
 

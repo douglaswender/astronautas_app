@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gold_express/app/core/app_colors.dart';
-import 'package:gold_express/app/modules/home/cubit/delivery_model.dart';
-import 'package:gold_express/app/modules/home/cubit/home_cubit.dart';
-import 'package:gold_express/app/modules/home/cubit/home_state.dart';
-import 'package:gold_express/app/widgets/button_widget.dart';
-import 'package:gold_express/app/widgets/loading_dialog.dart';
-import 'package:gold_express/app/widgets/text_field_widget.dart';
+import 'package:astronautas_app/app/core/app_colors.dart';
+import 'package:astronautas_app/app/modules/home/cubit/delivery_model.dart';
+import 'package:astronautas_app/app/modules/home/cubit/home_cubit.dart';
+import 'package:astronautas_app/app/modules/home/cubit/home_state.dart';
+import 'package:astronautas_app/app/widgets/button_widget.dart';
+import 'package:astronautas_app/app/widgets/loading_dialog.dart';
+import 'package:astronautas_app/app/widgets/text_field_widget.dart';
 
 class HomePage extends StatefulWidget {
   final HomeController controller;
@@ -52,14 +52,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   accountName: Text(
                     widget.controller.user.nome ?? '',
-                    style: const TextStyle(color: AppColors.black),
+                    style: const TextStyle(color: AppColors.white),
                   ),
                   accountEmail: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         widget.controller.user.email ?? '',
-                        style: const TextStyle(color: AppColors.black),
+                        style: const TextStyle(color: AppColors.white),
                       ),
                       if (widget.controller.user.tipo != 'cliente')
                         SizedBox(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         title: const Text(
-          'Gold Express',
+          'Astronautas Express',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

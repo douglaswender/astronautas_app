@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gold_express",
+            "name": "astronautas_app",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "gold_express (profile mode)",
+            "name": "astronautas_app (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "gold_express (release mode)",
+            "name": "astronautas_app (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
