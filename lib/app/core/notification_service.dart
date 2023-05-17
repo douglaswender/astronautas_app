@@ -73,12 +73,12 @@ class NotificationService {
   static Future<void> firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
     await Firebase.initializeApp();
-    print("Handling a background message: ${message.messageId}");
+    //print("Handling a background message: ${message.messageId}");
   }
 
   static void listen() async {
     FirebaseMessaging.onMessage.listen((message) {
-      print(message.data);
+      //print(message.data);
       if (message.notification != null) {
         displayNotification(
             title: message.notification?.title ?? '',

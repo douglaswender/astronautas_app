@@ -19,10 +19,6 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-
       body: BlocListener<AuthBloc, AuthState>(
         bloc: controller,
         listener: (context, state) {
@@ -50,6 +46,10 @@ class AuthPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Image.asset(
+                    'assets/icon.png',
+                    height: MediaQuery.of(context).size.height * 0.4,
+                  ),
                   const SizedBox(
                     height: 8,
                   ),

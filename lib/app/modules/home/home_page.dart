@@ -10,6 +10,7 @@ import 'package:astronautas_app/app/modules/home/cubit/home_state.dart';
 import 'package:astronautas_app/app/widgets/button_widget.dart';
 import 'package:astronautas_app/app/widgets/loading_dialog.dart';
 import 'package:astronautas_app/app/widgets/text_field_widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatefulWidget {
   final HomeController controller;
@@ -138,30 +139,84 @@ class _HomePageState extends State<HomePage> {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Center(
-                    child: Icon(Icons.dangerous),
+                    child: Icon(
+                      Icons.dangerous,
+                      color: AppColors.primary,
+                    ),
                   ),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
                           'Infelizmente não temos entregadores disponíveis no momento, acesse a aba "entregadores disponíveis" para conferir!'),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      ButtonWidget(
+                        label: 'Ok',
+                        onPressed: () {
+                          Modular.to.pop();
+                          Modular.to.pop();
+                        },
+                      )
                     ],
                   ),
-                  actions: [
-                    ButtonWidget(
-                      label: 'Ok',
-                      onPressed: () {
-                        Modular.to.pop();
-                        Modular.to.pop();
-                      },
-                    )
-                  ],
                 ),
               );
             },
             unauthenticated: () => Modular.to.pushReplacementNamed('/auth/'),
             regular: () {
               Modular.to.pop();
+            },
+            invalidUser: () {
+              Modular.to.pushReplacementNamed('/home/unavaliable');
+            },
+            regularWithDialog: () {
+              Modular.to.pop();
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Center(
+                    child: Icon(
+                      Icons.warning,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
+                          'Seu acesso está prestes a vencer, entre em contato com o suporte para renovar agora mesmo! '),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ButtonWidget(
+                              label: 'Suporte',
+                              onPressed: () {
+                                launchUrlString('tel:+5569993203759');
+                                Modular.to.pop();
+                              },
+                            ),
+                            ButtonWidget(
+                              label: 'Continuar',
+                              onPressed: () {
+                                Modular.to.pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
             },
             orElse: () {},
           );
@@ -171,7 +226,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(
@@ -181,61 +236,63 @@ class _HomePageState extends State<HomePage> {
                   bloc: widget.controller,
                   builder: (context, state) {
                     return state.maybeWhen(
-                      regular: () {
+                      orElse: () {
                         if (widget.controller.user.tipo == 'cliente') {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: ButtonWidget(
-                              label: 'Solicitar corrida',
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: Form(
-                                      key: widget.controller.formKey,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          TextFieldWidget(
-                                            labelText: 'Endereço de Destino',
-                                            textEditingController: widget
-                                                .controller.destinoController,
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Por favor, informe um destino';
-                                              }
-                                              return null;
-                                            },
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: ButtonWidget(
+                                  label: 'Solicitar corrida',
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Form(
+                                          key: widget.controller.formKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              TextFieldWidget(
+                                                labelText:
+                                                    'Observação, endereço, itens',
+                                                textEditingController: widget
+                                                    .controller
+                                                    .destinoController,
+                                              ),
+                                              ButtonWidget(
+                                                label: 'Enviar',
+                                                onPressed: () async {
+                                                  if (widget.controller.formKey
+                                                      .currentState!
+                                                      .validate()) {
+                                                    Modular.to.pop();
+                                                    await widget.controller
+                                                        .publishDelivery();
+                                                  }
+                                                },
+                                              ),
+                                            ],
                                           ),
-                                          ButtonWidget(
-                                            label: 'Enviar',
-                                            onPressed: () async {
-                                              if (widget.controller.formKey
-                                                  .currentState!
-                                                  .validate()) {
-                                                Modular.to.pop();
-                                                await widget.controller
-                                                    .publishDelivery();
-                                              }
-                                            },
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                            ],
                           );
                         } else {
                           return const SizedBox();
                         }
-                      },
-                      orElse: () {
-                        return const SizedBox();
                       },
                     );
                   },
@@ -245,8 +302,14 @@ class _HomePageState extends State<HomePage> {
             Expanded(
                 flex: 3,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Últimas corridas:'),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        'Últimas corridas:',
+                      ),
+                    ),
                     Expanded(
                       child: BlocBuilder<HomeController, HomeState>(
                         bloc: widget.controller,
@@ -291,14 +354,21 @@ class _HomePageState extends State<HomePage> {
                                                 data.status == 'aguardando'
                                             ? ButtonWidget(
                                                 label: 'Buscar',
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  widget.controller
+                                                      .getDelivery(e.id);
+                                                },
                                               )
                                             : widget.controller.user.tipo !=
                                                         'cliente' &&
                                                     data.status == 'buscando'
                                                 ? ButtonWidget(
                                                     label: 'Finalizar',
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      widget.controller
+                                                          .finalizeDelivery(
+                                                              e.id);
+                                                    },
                                                   )
                                                 : ButtonWidget(
                                                     label: data.status ?? '',
@@ -308,7 +378,9 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
-                                            Text(data.enderecoDestino!),
+                                            if (data.enderecoDestino != null &&
+                                                data.enderecoDestino != '')
+                                              Text(data.enderecoDestino!),
                                             Text(
                                                 'Valor: R\$ ${data.valorEntrega!.toStringAsFixed(2).replaceAll('.', ',')}'),
                                             Text('Status: ${data.status!}'),

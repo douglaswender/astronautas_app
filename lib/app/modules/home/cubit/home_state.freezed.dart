@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -28,6 +30,8 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -38,6 +42,8 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -49,6 +55,9 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -59,6 +68,8 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -69,6 +80,8 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -95,6 +108,287 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$HomeStateInvalidUserCopyWith<$Res> {
+  factory _$$HomeStateInvalidUserCopyWith(_$HomeStateInvalidUser value,
+          $Res Function(_$HomeStateInvalidUser) then) =
+      __$$HomeStateInvalidUserCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HomeStateInvalidUserCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$HomeStateInvalidUser>
+    implements _$$HomeStateInvalidUserCopyWith<$Res> {
+  __$$HomeStateInvalidUserCopyWithImpl(_$HomeStateInvalidUser _value,
+      $Res Function(_$HomeStateInvalidUser) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$HomeStateInvalidUser implements HomeStateInvalidUser {
+  _$HomeStateInvalidUser();
+
+  @override
+  String toString() {
+    return 'HomeState.invalidUser()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$HomeStateInvalidUser);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
+    required TResult Function() regular,
+    required TResult Function() loading,
+    required TResult Function() empty,
+    required TResult Function() error,
+    required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
+  }) {
+    return invalidUser();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
+    TResult? Function()? regular,
+    TResult? Function()? loading,
+    TResult? Function()? empty,
+    TResult? Function()? error,
+    TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
+  }) {
+    return invalidUser?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
+    TResult Function()? regular,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function()? error,
+    TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (invalidUser != null) {
+      return invalidUser();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
+    required TResult Function(HomeStateRegular value) regular,
+    required TResult Function(HomeStateLoading value) loading,
+    required TResult Function(HomeStateEmpty value) empty,
+    required TResult Function(HomeStateError value) error,
+    required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
+  }) {
+    return invalidUser(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
+    TResult? Function(HomeStateRegular value)? regular,
+    TResult? Function(HomeStateLoading value)? loading,
+    TResult? Function(HomeStateEmpty value)? empty,
+    TResult? Function(HomeStateError value)? error,
+    TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
+  }) {
+    return invalidUser?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
+    TResult Function(HomeStateRegular value)? regular,
+    TResult Function(HomeStateLoading value)? loading,
+    TResult Function(HomeStateEmpty value)? empty,
+    TResult Function(HomeStateError value)? error,
+    TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (invalidUser != null) {
+      return invalidUser(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeStateInvalidUser implements HomeState {
+  factory HomeStateInvalidUser() = _$HomeStateInvalidUser;
+}
+
+/// @nodoc
+abstract class _$$HomeStateRegularWithDialogCopyWith<$Res> {
+  factory _$$HomeStateRegularWithDialogCopyWith(
+          _$HomeStateRegularWithDialog value,
+          $Res Function(_$HomeStateRegularWithDialog) then) =
+      __$$HomeStateRegularWithDialogCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HomeStateRegularWithDialogCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$HomeStateRegularWithDialog>
+    implements _$$HomeStateRegularWithDialogCopyWith<$Res> {
+  __$$HomeStateRegularWithDialogCopyWithImpl(
+      _$HomeStateRegularWithDialog _value,
+      $Res Function(_$HomeStateRegularWithDialog) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$HomeStateRegularWithDialog implements HomeStateRegularWithDialog {
+  _$HomeStateRegularWithDialog();
+
+  @override
+  String toString() {
+    return 'HomeState.regularWithDialog()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HomeStateRegularWithDialog);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
+    required TResult Function() regular,
+    required TResult Function() loading,
+    required TResult Function() empty,
+    required TResult Function() error,
+    required TResult Function() unauthenticated,
+    required TResult Function() unavaliable,
+  }) {
+    return regularWithDialog();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
+    TResult? Function()? regular,
+    TResult? Function()? loading,
+    TResult? Function()? empty,
+    TResult? Function()? error,
+    TResult? Function()? unauthenticated,
+    TResult? Function()? unavaliable,
+  }) {
+    return regularWithDialog?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
+    TResult Function()? regular,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function()? error,
+    TResult Function()? unauthenticated,
+    TResult Function()? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (regularWithDialog != null) {
+      return regularWithDialog();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
+    required TResult Function(HomeStateRegular value) regular,
+    required TResult Function(HomeStateLoading value) loading,
+    required TResult Function(HomeStateEmpty value) empty,
+    required TResult Function(HomeStateError value) error,
+    required TResult Function(HomeStateUnauthenticated value) unauthenticated,
+    required TResult Function(HomeStateUnavailable value) unavaliable,
+  }) {
+    return regularWithDialog(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
+    TResult? Function(HomeStateRegular value)? regular,
+    TResult? Function(HomeStateLoading value)? loading,
+    TResult? Function(HomeStateEmpty value)? empty,
+    TResult? Function(HomeStateError value)? error,
+    TResult? Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult? Function(HomeStateUnavailable value)? unavaliable,
+  }) {
+    return regularWithDialog?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
+    TResult Function(HomeStateRegular value)? regular,
+    TResult Function(HomeStateLoading value)? loading,
+    TResult Function(HomeStateEmpty value)? empty,
+    TResult Function(HomeStateError value)? error,
+    TResult Function(HomeStateUnauthenticated value)? unauthenticated,
+    TResult Function(HomeStateUnavailable value)? unavaliable,
+    required TResult orElse(),
+  }) {
+    if (regularWithDialog != null) {
+      return regularWithDialog(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeStateRegularWithDialog implements HomeState {
+  factory HomeStateRegularWithDialog() = _$HomeStateRegularWithDialog;
 }
 
 /// @nodoc
@@ -135,6 +429,8 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -148,6 +444,8 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -161,6 +459,8 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -178,6 +478,9 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -191,6 +494,8 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -204,6 +509,8 @@ class _$HomeStateRegular implements HomeStateRegular {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -261,6 +568,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -274,6 +583,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -287,6 +598,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -304,6 +617,9 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -317,6 +633,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -330,6 +648,8 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -387,6 +707,8 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -400,6 +722,8 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -413,6 +737,8 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -430,6 +756,9 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -443,6 +772,8 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -456,6 +787,8 @@ class _$HomeStateEmpty implements HomeStateEmpty {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -513,6 +846,8 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -526,6 +861,8 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -539,6 +876,8 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -556,6 +895,9 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -569,6 +911,8 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -582,6 +926,8 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -640,6 +986,8 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -653,6 +1001,8 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -666,6 +1016,8 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -683,6 +1035,9 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -696,6 +1051,8 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -709,6 +1066,8 @@ class _$HomeStateUnauthenticated implements HomeStateUnauthenticated {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,
@@ -766,6 +1125,8 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() invalidUser,
+    required TResult Function() regularWithDialog,
     required TResult Function() regular,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -779,6 +1140,8 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? invalidUser,
+    TResult? Function()? regularWithDialog,
     TResult? Function()? regular,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -792,6 +1155,8 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? invalidUser,
+    TResult Function()? regularWithDialog,
     TResult Function()? regular,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -809,6 +1174,9 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(HomeStateInvalidUser value) invalidUser,
+    required TResult Function(HomeStateRegularWithDialog value)
+        regularWithDialog,
     required TResult Function(HomeStateRegular value) regular,
     required TResult Function(HomeStateLoading value) loading,
     required TResult Function(HomeStateEmpty value) empty,
@@ -822,6 +1190,8 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeStateInvalidUser value)? invalidUser,
+    TResult? Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult? Function(HomeStateRegular value)? regular,
     TResult? Function(HomeStateLoading value)? loading,
     TResult? Function(HomeStateEmpty value)? empty,
@@ -835,6 +1205,8 @@ class _$HomeStateUnavailable implements HomeStateUnavailable {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeStateInvalidUser value)? invalidUser,
+    TResult Function(HomeStateRegularWithDialog value)? regularWithDialog,
     TResult Function(HomeStateRegular value)? regular,
     TResult Function(HomeStateLoading value)? loading,
     TResult Function(HomeStateEmpty value)? empty,

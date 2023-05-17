@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:astronautas_app/app/core/notification_service.dart';
 import 'package:astronautas_app/app/modules/home/cubit/delivery_model.dart';
@@ -40,13 +43,14 @@ class HomeController extends Cubit<HomeState> {
     emit(HomeState.loading());
     lastRequests.clear();
     final email = auth.currentUser?.email;
-    final userType = await db
+    final userData = await db
         .collection('usuarios')
         .doc(email)
         .get()
         .then((value) => value.data());
-    user = user.copyWith(nome: userType!['nome']);
-    if (userType['tipo'] == 'cliente') {
+    user = UserModel.fromMap(userData!);
+
+    if (user.tipo == 'cliente') {
       final cliente = await db
           .collection('clientes')
           .doc(email)
@@ -59,13 +63,6 @@ class HomeController extends Cubit<HomeState> {
           .limit(10)
           .snapshots();
     } else {
-      await db
-          .collection('motoboys')
-          .doc(email)
-          .get()
-          .then((value) => user = user.copyWith(
-                email: email,
-              ));
       motoboy = await db
           .collection('motoboys')
           .doc(email)
@@ -80,8 +77,15 @@ class HomeController extends Cubit<HomeState> {
           .limit(10)
           .snapshots();
     }
-    user = user.copyWith(email: email, tipo: userType['tipo']);
-    emit(HomeState.regular());
+    user = user.copyWith(email: email, tipo: userData['tipo']);
+    if (Timestamp.now().compareTo(user.validoAte!) == 1) {
+      emit(HomeState.invalidUser());
+    } else if (user.validoAte!.toDate().difference(await NTP.now()).inDays <
+        3) {
+      emit(HomeState.regularWithDialog());
+    } else {
+      emit(HomeState.regular());
+    }
   }
 
   Future<void> changeStatus() async {
@@ -118,7 +122,12 @@ class HomeController extends Cubit<HomeState> {
     final nestedQueue = queue?['fila'] as List;
     if (nestedQueue.isEmpty) {
       emit(HomeState.unavaliable());
+      //emit(HomeState.regular());
     } else {
+      final rc = FirebaseRemoteConfig.instance;
+      await rc.fetchAndActivate();
+      final valueOfRun = jsonDecode(rc.getValue('value_of_run').asString());
+
       final first = nestedQueue.removeAt(0);
       nestedQueue.add(first);
 
@@ -139,7 +148,7 @@ class HomeController extends Cubit<HomeState> {
         'enderecoDestino': destinoController.text,
         'motoboy': motoboy.toMapDelivery(),
         'status': 'aguardando',
-        'valorEntrega': 6,
+        'valorEntrega': valueOfRun['ouro-preto'],
         'timestamp': await NTP.now(),
       });
 
@@ -155,5 +164,53 @@ class HomeController extends Cubit<HomeState> {
       await db.collection('fila').doc('ouro-preto').set({'fila': nestedQueue});
       emit(HomeState.regular());
     }
+  }
+
+  Future<void> getDelivery(String deliveryId) async {
+    emit(HomeState.loading());
+    await db.collection('entregas').doc(deliveryId).update({
+      'status': 'buscando',
+    });
+    final emailClient = await db
+        .collection('entregas')
+        .doc(deliveryId)
+        .get()
+        .then((value) => value.data()!['cliente']['email']);
+
+    final tokens = await db
+        .collection('usuarios')
+        .doc(emailClient)
+        .get()
+        .then((value) => value.data()?['tokens'] as List? ?? []);
+
+    NotificationService.sendUserNotification(
+        tokens: tokens,
+        body: 'Opa, seu entregador pegou a corrida e já já chega aí!',
+        title: '${user.nome} a caminho! 🛵🛵🛵');
+    emit(HomeState.regular());
+  }
+
+  Future<void> finalizeDelivery(String deliveryId) async {
+    emit(HomeState.loading());
+    await db.collection('entregas').doc(deliveryId).update({
+      'status': 'finalizado',
+    });
+    final emailClient = await db
+        .collection('entregas')
+        .doc(deliveryId)
+        .get()
+        .then((value) => value.data()!['cliente']['email']);
+
+    final tokens = await db
+        .collection('usuarios')
+        .doc(emailClient)
+        .get()
+        .then((value) => value.data()?['tokens'] as List? ?? []);
+
+    NotificationService.sendUserNotification(
+        tokens: tokens,
+        body: 'Entrega concluída com sucesso',
+        title: '${user.nome} terminou a corrida! 🛵');
+    emit(HomeState.regular());
   }
 }
