@@ -5,21 +5,25 @@ class ClienteModel {
   final String endereco;
   final String nome;
   final String email;
+  final String telefone;
   ClienteModel({
     required this.endereco,
     required this.nome,
     required this.email,
+    required this.telefone,
   });
 
   ClienteModel copyWith({
     String? endereco,
     String? nome,
     String? email,
+    String? telefone,
   }) {
     return ClienteModel(
       endereco: endereco ?? this.endereco,
       nome: nome ?? this.nome,
       email: email ?? this.email,
+      telefone: telefone ?? this.telefone,
     );
   }
 
@@ -28,6 +32,7 @@ class ClienteModel {
       'endereco': endereco,
       'nome': nome,
       'email': email,
+      'telefone': telefone,
     };
   }
 
@@ -36,6 +41,7 @@ class ClienteModel {
       endereco: map['endereco'] as String,
       nome: map['nome'] as String,
       email: map['email'] as String,
+      telefone: map['telefone'] as String,
     );
   }
 
@@ -45,8 +51,9 @@ class ClienteModel {
       ClienteModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'ClienteModel(endereco: $endereco, nome: $nome, email: $email)';
+  String toString() {
+    return 'ClienteModel(endereco: $endereco, nome: $nome, email: $email, telefone: $telefone)';
+  }
 
   @override
   bool operator ==(covariant ClienteModel other) {
@@ -54,9 +61,15 @@ class ClienteModel {
 
     return other.endereco == endereco &&
         other.nome == nome &&
-        other.email == email;
+        other.email == email &&
+        other.telefone == telefone;
   }
 
   @override
-  int get hashCode => endereco.hashCode ^ nome.hashCode ^ email.hashCode;
+  int get hashCode {
+    return endereco.hashCode ^
+        nome.hashCode ^
+        email.hashCode ^
+        telefone.hashCode;
+  }
 }

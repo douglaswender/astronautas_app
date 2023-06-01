@@ -20,7 +20,7 @@ class HomeController extends Cubit<HomeState> {
   HomeController() : super(HomeState.empty());
   List<DeliveryModel> lastRequests = [];
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController destinoController = TextEditingController();
+  TextEditingController qtdEntrega = TextEditingController();
   Stream<QuerySnapshot>? lastRequestStream;
   MotoboyModel? motoboy;
   bool trabalhando = false;
@@ -48,7 +48,7 @@ class HomeController extends Cubit<HomeState> {
         .doc(email)
         .get()
         .then((value) => value.data());
-    user = UserModel.fromMap(userData!);
+    user = UserModel.fromMap(userData!).copyWith(email: email);
 
     if (user.tipo == 'cliente') {
       final cliente = await db
@@ -77,7 +77,7 @@ class HomeController extends Cubit<HomeState> {
           .limit(10)
           .snapshots();
     }
-    user = user.copyWith(email: email, tipo: userData['tipo']);
+    //user = user.copyWith(email: email, tipo: userData['tipo']);
     if (Timestamp.now().compareTo(user.validoAte!) == 1) {
       emit(HomeState.invalidUser());
     } else if (user.validoAte!.toDate().difference(await NTP.now()).inDays <
@@ -113,24 +113,37 @@ class HomeController extends Cubit<HomeState> {
 
   Future<void> publishDelivery() async {
     emit(HomeState.loading());
-    final queue = await db
-        .collection('fila')
-        .doc('ouro-preto')
-        .get()
-        .then((value) => value.data());
+    final rc = FirebaseRemoteConfig.instance;
+    await rc.fetchAndActivate();
+    final valueOfRun = jsonDecode(rc.getValue('value_of_run').asString());
+    late String first;
+    bool hasMotoboy = false;
+    await db.runTransaction((transaction) async {
+      final filaRef = db.collection('fila').doc('ouro-preto');
 
-    final nestedQueue = queue?['fila'] as List;
-    if (nestedQueue.isEmpty) {
-      emit(HomeState.unavaliable());
-      //emit(HomeState.regular());
-    } else {
-      final rc = FirebaseRemoteConfig.instance;
-      await rc.fetchAndActivate();
-      final valueOfRun = jsonDecode(rc.getValue('value_of_run').asString());
+      final queue =
+          await transaction.get(filaRef).then((value) => value.data());
 
-      final first = nestedQueue.removeAt(0);
-      nestedQueue.add(first);
+      final nestedQueue = queue!['fila'] as List;
+      if (nestedQueue.isEmpty) {
+        emit(HomeState.unavaliable());
+      } else {
+        hasMotoboy = true;
+        first = nestedQueue.removeAt(0);
+        nestedQueue.add(first);
 
+        final firstTokens = await db
+            .collection('usuarios')
+            .doc(first)
+            .get()
+            .then((value) => value.data()?['tokens'] as List? ?? []);
+
+        NotificationService.sendUserNotification(
+            tokens: firstTokens, body: 'Uma nova corrida para você aceitar!');
+        transaction.set(filaRef, {'fila': nestedQueue});
+      }
+    });
+    if (hasMotoboy) {
       final motoboy = await db
           .collection('motoboys')
           .doc(first)
@@ -145,23 +158,12 @@ class HomeController extends Cubit<HomeState> {
 
       await db.collection('entregas').add({
         'cliente': cliente,
-        'enderecoDestino': destinoController.text,
+        'qtdEntrega': qtdEntrega.text == '' ? 1 : int.parse(qtdEntrega.text),
         'motoboy': motoboy.toMapDelivery(),
         'status': 'aguardando',
         'valorEntrega': valueOfRun['ouro-preto'],
         'timestamp': await NTP.now(),
       });
-
-      final firstTokens = await db
-          .collection('usuarios')
-          .doc(first)
-          .get()
-          .then((value) => value.data()?['tokens'] as List? ?? []);
-
-      NotificationService.sendUserNotification(
-          tokens: firstTokens, body: 'Uma nova corrida para você aceitar!');
-
-      await db.collection('fila').doc('ouro-preto').set({'fila': nestedQueue});
       emit(HomeState.regular());
     }
   }
@@ -185,7 +187,7 @@ class HomeController extends Cubit<HomeState> {
 
     NotificationService.sendUserNotification(
         tokens: tokens,
-        body: 'Opa, seu entregador pegou a corrida e já já chega aí!',
+        body: 'Opa, seu entregador já já chega aí!',
         title: '${user.nome} a caminho! 🛵🛵🛵');
     emit(HomeState.regular());
   }
@@ -209,7 +211,7 @@ class HomeController extends Cubit<HomeState> {
 
     NotificationService.sendUserNotification(
         tokens: tokens,
-        body: 'Entrega concluída com sucesso',
+        body: 'Obrigado por usar o nosso serviço',
         title: '${user.nome} terminou a corrida! 🛵');
     emit(HomeState.regular());
   }

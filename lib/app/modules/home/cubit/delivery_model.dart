@@ -7,14 +7,14 @@ import 'package:astronautas_app/app/modules/home/cubit/cliente_model.dart';
 import 'package:astronautas_app/app/modules/home/cubit/motoboy_model.dart';
 
 class DeliveryModel {
-  final String? enderecoDestino;
+  final int? qtdEntrega;
   final String? status;
   final double? valorEntrega;
   final MotoboyModel? motoboy;
   final ClienteModel? cliente;
   final Timestamp timestamp;
   DeliveryModel({
-    this.enderecoDestino,
+    this.qtdEntrega,
     this.status,
     this.valorEntrega,
     this.motoboy,
@@ -23,7 +23,7 @@ class DeliveryModel {
   });
 
   DeliveryModel copyWith({
-    String? enderecoDestino,
+    int? qtdEntrega,
     String? status,
     double? valorEntrega,
     MotoboyModel? motoboy,
@@ -31,7 +31,7 @@ class DeliveryModel {
     Timestamp? timestamp,
   }) {
     return DeliveryModel(
-      enderecoDestino: enderecoDestino ?? this.enderecoDestino,
+      qtdEntrega: qtdEntrega ?? this.qtdEntrega,
       status: status ?? this.status,
       valorEntrega: valorEntrega ?? this.valorEntrega,
       motoboy: motoboy ?? this.motoboy,
@@ -42,7 +42,7 @@ class DeliveryModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'enderecoDestino': enderecoDestino,
+      'enderecoDestino': qtdEntrega,
       'status': status,
       'valorEntrega': valorEntrega,
       'motoboy': motoboy?.toMap(),
@@ -53,9 +53,7 @@ class DeliveryModel {
 
   factory DeliveryModel.fromMap(Map<String, dynamic> map) {
     return DeliveryModel(
-      enderecoDestino: map['enderecoDestino'] != null
-          ? map['enderecoDestino'] as String
-          : null,
+      qtdEntrega: map['qtdEntrega'] != null ? map['qtdEntrega'] as int : null,
       status: map['status'] != null ? map['status'] as String : null,
       valorEntrega: double.tryParse(map['valorEntrega'].toString()),
       motoboy: map['motoboy'] != null
@@ -75,14 +73,14 @@ class DeliveryModel {
 
   @override
   String toString() {
-    return 'DeliveryModel(enderecoDestino: $enderecoDestino, status: $status, valorEntrega: $valorEntrega, motoboy: $motoboy, cliente: $cliente, timestamp: $timestamp)';
+    return 'DeliveryModel(enderecoDestino: $qtdEntrega, status: $status, valorEntrega: $valorEntrega, motoboy: $motoboy, cliente: $cliente, timestamp: $timestamp)';
   }
 
   @override
   bool operator ==(covariant DeliveryModel other) {
     if (identical(this, other)) return true;
 
-    return other.enderecoDestino == enderecoDestino &&
+    return other.qtdEntrega == qtdEntrega &&
         other.status == status &&
         other.valorEntrega == valorEntrega &&
         other.motoboy == motoboy &&
@@ -92,7 +90,7 @@ class DeliveryModel {
 
   @override
   int get hashCode {
-    return enderecoDestino.hashCode ^
+    return qtdEntrega.hashCode ^
         status.hashCode ^
         valorEntrega.hashCode ^
         motoboy.hashCode ^

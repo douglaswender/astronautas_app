@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text(
-                          'Infelizmente não temos entregadores disponíveis no momento, acesse a aba "entregadores disponíveis" para conferir!'),
+                          'Infelizmente não temos entregadores disponíveis no momento!'),
                       const SizedBox(
                         height: 8,
                       ),
@@ -224,9 +224,121 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(
+              height: 12,
+            ),
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      'Últimas corridas:',
+                    ),
+                  ),
+                  Expanded(
+                    child: BlocBuilder<HomeController, HomeState>(
+                      bloc: widget.controller,
+                      builder: (context, state) {
+                        return StreamBuilder<QuerySnapshot>(
+                          stream: widget.controller.lastRequestStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Há algo errado aqui!');
+                            }
+
+                            if (snapshot.connectionState ==
+                                    ConnectionState.waiting ||
+                                !snapshot.hasData) {
+                              return const Center(
+                                child: SpinKitPouringHourGlassRefined(
+                                  color: AppColors.primary,
+                                  size: 50,
+                                ),
+                              );
+                            }
+
+                            return ListView(
+                              children: snapshot.data?.docs.map((e) {
+                                    DeliveryModel data = DeliveryModel.fromMap(
+                                        e.data() as Map<String, dynamic>);
+                                    return ListTile(
+                                      title: BlocBuilder<HomeController,
+                                          HomeState>(
+                                        bloc: widget.controller,
+                                        builder: (context, state) {
+                                          return Text(
+                                              widget.controller.user.tipo ==
+                                                      'cliente'
+                                                  ? data.motoboy!.nome
+                                                  : data.cliente!.nome);
+                                        },
+                                      ),
+                                      trailing: widget.controller.user.tipo !=
+                                                  'cliente' &&
+                                              data.status == 'aguardando'
+                                          ? ButtonWidget(
+                                              label: 'Buscar',
+                                              onPressed: () {
+                                                widget.controller
+                                                    .getDelivery(e.id);
+                                              },
+                                            )
+                                          : widget.controller.user.tipo !=
+                                                      'cliente' &&
+                                                  data.status == 'buscando'
+                                              ? ButtonWidget(
+                                                  label: 'Finalizar',
+                                                  onPressed: () {
+                                                    widget.controller
+                                                        .finalizeDelivery(e.id);
+                                                  },
+                                                )
+                                              : ButtonWidget(
+                                                  label: data.status ?? '',
+                                                  onPressed: null,
+                                                ),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          if (widget.controller.user.tipo ==
+                                              'cliente')
+                                            Text(data.motoboy!.placa),
+                                          if (widget.controller.user.tipo ==
+                                              'cliente')
+                                            Text(data.motoboy!.telefone),
+                                          if (widget.controller.user.tipo !=
+                                              'cliente')
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(data.cliente!.endereco),
+                                                Text(data.cliente!.telefone),
+                                              ],
+                                            ),
+                                          Text(
+                                              'Valor: R\$ ${(data.valorEntrega! * (data.qtdEntrega ?? 1)).toStringAsFixed(2).replaceAll('.', ',')}'),
+                                          Text('Status: ${data.status!}'),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList() ??
+                                  [],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Column(
               mainAxisSize: MainAxisSize.max,
-              //mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(
@@ -258,12 +370,29 @@ class _HomePageState extends State<HomePage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.stretch,
                                             children: [
+                                              const Text(
+                                                'Quantas entregas você tem?\n(Em branco é 1)',
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
                                               TextFieldWidget(
-                                                labelText:
-                                                    'Observação, endereço, itens',
+                                                labelText: 'Quantas entregas?',
                                                 textEditingController: widget
-                                                    .controller
-                                                    .destinoController,
+                                                    .controller.qtdEntrega,
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value == '') {
+                                                    return null;
+                                                  }
+                                                  if (!RegExp(
+                                                          r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                                      .hasMatch(value)) {
+                                                    return 'Somente números';
+                                                  }
+                                                  return null;
+                                                },
                                               ),
                                               ButtonWidget(
                                                 label: 'Enviar',
@@ -297,106 +426,11 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
+                const SizedBox(
+                  height: 12,
+                ),
               ],
             ),
-            Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(
-                        'Últimas corridas:',
-                      ),
-                    ),
-                    Expanded(
-                      child: BlocBuilder<HomeController, HomeState>(
-                        bloc: widget.controller,
-                        builder: (context, state) {
-                          return StreamBuilder<QuerySnapshot>(
-                            stream: widget.controller.lastRequestStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) {
-                                return const Text('Há algo errado aqui!');
-                              }
-
-                              if (snapshot.connectionState ==
-                                      ConnectionState.waiting ||
-                                  !snapshot.hasData) {
-                                return const Center(
-                                  child: SpinKitPouringHourGlassRefined(
-                                    color: AppColors.primary,
-                                    size: 50,
-                                  ),
-                                );
-                              }
-
-                              return ListView(
-                                children: snapshot.data?.docs.map((e) {
-                                      DeliveryModel data =
-                                          DeliveryModel.fromMap(
-                                              e.data() as Map<String, dynamic>);
-                                      return ListTile(
-                                        title: BlocBuilder<HomeController,
-                                            HomeState>(
-                                          bloc: widget.controller,
-                                          builder: (context, state) {
-                                            return Text(
-                                                widget.controller.user.tipo ==
-                                                        'cliente'
-                                                    ? data.motoboy!.nome
-                                                    : data.cliente!.nome);
-                                          },
-                                        ),
-                                        trailing: widget.controller.user.tipo !=
-                                                    'cliente' &&
-                                                data.status == 'aguardando'
-                                            ? ButtonWidget(
-                                                label: 'Buscar',
-                                                onPressed: () {
-                                                  widget.controller
-                                                      .getDelivery(e.id);
-                                                },
-                                              )
-                                            : widget.controller.user.tipo !=
-                                                        'cliente' &&
-                                                    data.status == 'buscando'
-                                                ? ButtonWidget(
-                                                    label: 'Finalizar',
-                                                    onPressed: () {
-                                                      widget.controller
-                                                          .finalizeDelivery(
-                                                              e.id);
-                                                    },
-                                                  )
-                                                : ButtonWidget(
-                                                    label: data.status ?? '',
-                                                    onPressed: null,
-                                                  ),
-                                        subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            if (data.enderecoDestino != null &&
-                                                data.enderecoDestino != '')
-                                              Text(data.enderecoDestino!),
-                                            Text(
-                                                'Valor: R\$ ${data.valorEntrega!.toStringAsFixed(2).replaceAll('.', ',')}'),
-                                            Text('Status: ${data.status!}'),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList() ??
-                                    [],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                )),
           ],
         ),
       ),

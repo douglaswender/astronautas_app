@@ -7,27 +7,30 @@ class MotoboyModel {
   final String telefone;
   final String tipoDocumento;
   final bool? trabalhando;
+  final String placa;
   MotoboyModel({
     required this.documento,
     required this.nome,
     required this.telefone,
     required this.tipoDocumento,
     this.trabalhando,
+    required this.placa,
   });
 
-  MotoboyModel copyWith({
-    String? documento,
-    String? nome,
-    String? telefone,
-    String? tipoDocumento,
-    bool? trabalhando,
-  }) {
+  MotoboyModel copyWith(
+      {String? documento,
+      String? nome,
+      String? telefone,
+      String? tipoDocumento,
+      bool? trabalhando,
+      String? placa}) {
     return MotoboyModel(
       documento: documento ?? this.documento,
       nome: nome ?? this.nome,
       telefone: telefone ?? this.telefone,
       tipoDocumento: tipoDocumento ?? this.tipoDocumento,
       trabalhando: trabalhando ?? this.trabalhando,
+      placa: placa ?? this.placa,
     );
   }
 
@@ -38,6 +41,7 @@ class MotoboyModel {
       'telefone': telefone,
       'tipoDocumento': tipoDocumento,
       'trabalhando': trabalhando,
+      'placa': placa,
     };
   }
 
@@ -47,6 +51,7 @@ class MotoboyModel {
       'nome': nome,
       'telefone': telefone,
       'tipoDocumento': tipoDocumento,
+      'placa': placa,
     };
   }
 
@@ -57,6 +62,7 @@ class MotoboyModel {
       telefone: map['telefone'],
       tipoDocumento: map['tipoDocumento'],
       trabalhando: map['trabalhando'],
+      placa: map['placa'],
     );
   }
 
@@ -66,6 +72,7 @@ class MotoboyModel {
       nome: map['nome'],
       telefone: map['telefone'],
       tipoDocumento: map['tipoDocumento'],
+      placa: map['placa'],
     );
   }
 
@@ -76,7 +83,7 @@ class MotoboyModel {
 
   @override
   String toString() {
-    return 'MotoboyModel(documento: $documento, nome: $nome, telefone: $telefone, tipoDocumento: $tipoDocumento, trabalhando: $trabalhando)';
+    return 'MotoboyModel(documento: $documento, nome: $nome, telefone: $telefone, tipoDocumento: $tipoDocumento, trabalhando: $trabalhando, placa: $placa)';
   }
 
   @override
@@ -87,7 +94,8 @@ class MotoboyModel {
         other.nome == nome &&
         other.telefone == telefone &&
         other.tipoDocumento == tipoDocumento &&
-        other.trabalhando == trabalhando;
+        other.trabalhando == trabalhando &&
+        other.placa == placa;
   }
 
   @override
@@ -96,6 +104,7 @@ class MotoboyModel {
         nome.hashCode ^
         telefone.hashCode ^
         tipoDocumento.hashCode ^
-        trabalhando.hashCode;
+        trabalhando.hashCode ^
+        placa.hashCode;
   }
 }

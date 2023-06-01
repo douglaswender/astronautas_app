@@ -11,6 +11,9 @@ class AuthBloc extends Cubit<AuthState> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AuthBloc() : super(AuthStateEmpty());
 
+  final openWhatsapp =
+      'whatsapp://send?phone=+5569993203759&text=Quero me registrar no Astronautas Express!';
+
   Future<void> login() async {
     emit(AuthState.loading());
     try {
