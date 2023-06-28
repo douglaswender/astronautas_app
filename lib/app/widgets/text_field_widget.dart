@@ -19,6 +19,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool heightExpanded;
   final AutovalidateMode? autovalidateMode;
   final String? labelText;
+  final bool enabled;
 
   const TextFieldWidget({
     super.key,
@@ -37,6 +38,7 @@ class TextFieldWidget extends StatefulWidget {
     this.heightExpanded = true,
     this.autovalidateMode,
     this.labelText,
+    this.enabled = true,
   });
 
   @override
@@ -66,6 +68,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 ),
           ),
           child: TextFormField(
+            enabled: widget.enabled,
             autovalidateMode: widget.autovalidateMode,
             textCapitalization: widget.textCapitalization!,
             inputFormatters: widget.inputFormatters,
@@ -136,6 +139,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               ),
         ),
         child: TextFormField(
+          enabled: widget.enabled,
           autovalidateMode: widget.autovalidateMode,
           textCapitalization: widget.textCapitalization!,
           inputFormatters: widget.inputFormatters,

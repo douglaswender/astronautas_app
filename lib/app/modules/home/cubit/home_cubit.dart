@@ -25,6 +25,9 @@ class HomeController extends Cubit<HomeState> {
   MotoboyModel? motoboy;
   bool trabalhando = false;
 
+  String get openWhatsapp =>
+      'whatsapp://send?phone=+5569993203759&text=Quero alterar minha conta! Meu email é: ${user.email}';
+
   Future<void> logout() async {
     emit(HomeState.loading());
 

@@ -9,6 +9,7 @@ class AuthBloc extends Cubit<AuthState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late UserCredential userCredential;
   AuthBloc() : super(AuthStateEmpty());
 
   final openWhatsapp =
@@ -17,8 +18,9 @@ class AuthBloc extends Cubit<AuthState> {
   Future<void> login() async {
     emit(AuthState.loading());
     try {
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      final user = userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
       emailController.clear();
       passwordController.clear();
       final deviceTokens = await FirebaseFirestore.instance

@@ -104,6 +104,12 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     },
+                  ),
+                  ListTile(
+                    title: const Text('Minha conta'),
+                    onTap: () {
+                      Modular.to.pushNamed('/profile/');
+                    },
                   )
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:astronautas_app/app/modules/profile/profile_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:astronautas_app/app/modules/auth/auth_module.dart';
 import 'package:astronautas_app/app/modules/auth/controller/auth_cubit.dart';
@@ -15,5 +16,6 @@ class AppModule extends Module {
         ModuleRoute('/auth', module: AuthModule()),
         ChildRoute('/', child: (context, args) => const SplashPage()),
         ModuleRoute('/home', module: HomeModule()),
+        ModuleRoute('/profile', module: ProfileModule()),
       ];
 }
