@@ -19,6 +19,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool heightExpanded;
   final AutovalidateMode? autovalidateMode;
   final String? labelText;
+  final String? errorText;
   final bool enabled;
 
   const TextFieldWidget({
@@ -39,6 +40,7 @@ class TextFieldWidget extends StatefulWidget {
     this.autovalidateMode,
     this.labelText,
     this.enabled = true,
+    this.errorText,
   });
 
   @override
@@ -82,6 +84,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             onChanged: widget.onChanged,
             validator: widget.validator,
             decoration: InputDecoration(
+              errorText: widget.errorText,
               focusColor: Colors.white,
               prefixIcon: widget.prefixIcon,
               suffixIcon: widget.suffixIcon != null

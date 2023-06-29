@@ -60,25 +60,70 @@ class _AuthPageState extends State<AuthPage> {
                   const SizedBox(
                     height: 8,
                   ),
-                  TextFieldWidget(
-                    textEditingController: widget.controller.emailController,
-                    labelText: 'Email',
-                    hintText: 'Seu melhor email',
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: (email) {
-                      if (email == null || email.isEmpty) {
-                        return 'Por favor, informe um email!';
-                      } else if (!EmailValidator.validate(email)) {
-                        return 'Informe um email válido!';
-                      }
-                      return null;
+                  BlocBuilder<AuthBloc, AuthState>(
+                    bloc: widget.controller,
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        error: () {
+                          return Column(
+                            children: [
+                              TextFieldWidget(
+                                errorText: 'Email ou senha inválidos',
+                                textEditingController:
+                                    widget.controller.emailController,
+                                labelText: 'Email',
+                                hintText: 'Seu melhor email',
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                validator: (email) {
+                                  if (email == null || email.isEmpty) {
+                                    return 'Por favor, informe um email!';
+                                  } else if (!EmailValidator.validate(email)) {
+                                    return 'Informe um email válido!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFieldWidget(
+                                errorText: 'Email ou senha inválidos',
+                                textEditingController:
+                                    widget.controller.passwordController,
+                                labelText: 'Senha',
+                                obscureText: true,
+                              ),
+                            ],
+                          );
+                        },
+                        orElse: () {
+                          return Column(
+                            children: [
+                              TextFieldWidget(
+                                textEditingController:
+                                    widget.controller.emailController,
+                                labelText: 'Email',
+                                hintText: 'Seu melhor email',
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                validator: (email) {
+                                  if (email == null || email.isEmpty) {
+                                    return 'Por favor, informe um email!';
+                                  } else if (!EmailValidator.validate(email)) {
+                                    return 'Informe um email válido!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TextFieldWidget(
+                                textEditingController:
+                                    widget.controller.passwordController,
+                                labelText: 'Senha',
+                                obscureText: true,
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
-                  ),
-                  TextFieldWidget(
-                    textEditingController: widget.controller.passwordController,
-                    labelText: 'Senha',
-                    obscureText: true,
                   ),
                   ButtonWidget(
                     label: 'Entrar',
