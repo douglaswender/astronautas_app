@@ -7,4 +7,5 @@ class AuthState with _$AuthState {
   factory AuthState.loading() = AuthStateLoading;
   factory AuthState.empty() = AuthStateEmpty;
   factory AuthState.error() = AuthStateError;
+  factory AuthState.invalidPassword() = AuthStateInvalidPassword;
 }

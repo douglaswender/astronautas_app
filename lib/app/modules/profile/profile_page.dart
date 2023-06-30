@@ -50,25 +50,25 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Nome: '),
+                  const Text('Nome: '),
                   TextFieldWidget(
                     enabled: false,
                     textEditingController: TextEditingController(
                         text: widget.controller.user.nome ?? ''),
                   ),
-                  Text('Telefone: '),
+                  const Text('Telefone: '),
                   TextFieldWidget(
                     enabled: false,
                     textEditingController: TextEditingController(
                         text: widget.controller.user.telefone ?? ''),
                   ),
-                  Text('Email: '),
+                  const Text('Email: '),
                   TextFieldWidget(
                     enabled: false,
                     textEditingController: TextEditingController(
                         text: widget.controller.user.email ?? ''),
                   ),
-                  Text('Vencimento: '),
+                  const Text('Vencimento: '),
                   TextFieldWidget(
                     enabled: false,
                     textEditingController: TextEditingController(
@@ -89,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Text('Nova senha: '),
+                                  const Text('Nova senha: '),
                                   TextFieldWidget(
                                     obscureText: true,
                                     textEditingController: widget
@@ -108,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       return null;
                                     },
                                   ),
-                                  Text('Nova senha: '),
+                                  const Text('Nova senha: '),
                                   TextFieldWidget(
                                     obscureText: true,
                                     textEditingController: widget

@@ -8,7 +8,7 @@ import 'modules/splash/splash_page.dart';
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.lazySingleton((i) => AuthBloc()),
+        Bind.lazySingleton((i) => AuthBloc(i.get())),
       ];
 
   @override

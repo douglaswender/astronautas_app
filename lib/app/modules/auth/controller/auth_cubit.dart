@@ -1,7 +1,7 @@
+import 'package:astronautas_app/app/modules/auth/domain/repositories/login_repository.dart';
+import 'package:astronautas_app/app/modules/auth/domain/usecases/login/login_usecase.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:astronautas_app/app/modules/auth/controller/auth_state.dart';
 
@@ -10,48 +10,25 @@ class AuthBloc extends Cubit<AuthState> {
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late UserCredential userCredential;
-  AuthBloc() : super(AuthStateEmpty());
+
+  final LoginUsecase _usecase;
+  AuthBloc(this._usecase) : super(AuthStateEmpty());
 
   final openWhatsapp =
       'whatsapp://send?phone=+5569993203759&text=Quero me registrar no Astronautas Express!';
 
   Future<void> login() async {
     emit(AuthState.loading());
-    try {
-      final user = userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      emailController.clear();
-      passwordController.clear();
-      final deviceTokens = await FirebaseFirestore.instance
-          .collection('usuarios')
-          .doc(user.user?.email)
-          .get()
-          .then((value) => value.data()?['tokens'] as List?);
-      String? thisDeviceToken = await FirebaseMessaging.instance.getToken();
-      if (deviceTokens != null && deviceTokens.isNotEmpty) {
-        if (!deviceTokens.contains(thisDeviceToken)) {
-          deviceTokens.add(thisDeviceToken);
-        }
+    final response = await _usecase(
+        params: LoginParams(
+            email: emailController.text, password: passwordController.text));
 
-        await FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(user.user?.email)
-            .update({
-          "tokens": deviceTokens,
-        });
+    response.fold((l) {
+      if (l.error is FirebaseAuthException) {
+        emit(AuthState.invalidPassword());
       } else {
-        await FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(user.user?.email)
-            .update({
-          "tokens": [thisDeviceToken],
-        });
+        emit(AuthState.error());
       }
-
-      emit(AuthState.regular());
-    } catch (e) {
-      emit(AuthState.error());
-    }
+    }, (r) => emit(AuthState.regular()));
   }
 }

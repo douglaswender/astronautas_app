@@ -39,6 +39,7 @@ class _AuthPageState extends State<AuthPage> {
             error: () {
               Modular.to.pop();
             },
+            invalidPassword: () => Modular.to.pop(),
             orElse: () {},
           );
         },
@@ -64,7 +65,7 @@ class _AuthPageState extends State<AuthPage> {
                     bloc: widget.controller,
                     builder: (context, state) {
                       return state.maybeWhen(
-                        error: () {
+                        invalidPassword: () {
                           return Column(
                             children: [
                               TextFieldWidget(

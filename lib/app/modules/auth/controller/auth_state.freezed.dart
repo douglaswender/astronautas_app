@@ -22,6 +22,7 @@ mixin _$AuthState {
     required TResult Function() loading,
     required TResult Function() empty,
     required TResult Function() error,
+    required TResult Function() invalidPassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$AuthState {
     TResult? Function()? loading,
     TResult? Function()? empty,
     TResult? Function()? error,
+    TResult? Function()? invalidPassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$AuthState {
     TResult Function()? loading,
     TResult Function()? empty,
     TResult Function()? error,
+    TResult Function()? invalidPassword,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$AuthState {
     required TResult Function(AuthStateLoading value) loading,
     required TResult Function(AuthStateEmpty value) empty,
     required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$AuthState {
     TResult? Function(AuthStateLoading value)? loading,
     TResult? Function(AuthStateEmpty value)? empty,
     TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$AuthState {
     TResult Function(AuthStateLoading value)? loading,
     TResult Function(AuthStateEmpty value)? empty,
     TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,6 +133,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     required TResult Function() loading,
     required TResult Function() empty,
     required TResult Function() error,
+    required TResult Function() invalidPassword,
   }) {
     return regular();
   }
@@ -138,6 +145,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     TResult? Function()? loading,
     TResult? Function()? empty,
     TResult? Function()? error,
+    TResult? Function()? invalidPassword,
   }) {
     return regular?.call();
   }
@@ -149,6 +157,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     TResult Function()? loading,
     TResult Function()? empty,
     TResult Function()? error,
+    TResult Function()? invalidPassword,
     required TResult orElse(),
   }) {
     if (regular != null) {
@@ -164,6 +173,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     required TResult Function(AuthStateLoading value) loading,
     required TResult Function(AuthStateEmpty value) empty,
     required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
   }) {
     return regular(this);
   }
@@ -175,6 +185,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     TResult? Function(AuthStateLoading value)? loading,
     TResult? Function(AuthStateEmpty value)? empty,
     TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
   }) {
     return regular?.call(this);
   }
@@ -186,6 +197,7 @@ class _$AuthStateRegular implements AuthStateRegular {
     TResult Function(AuthStateLoading value)? loading,
     TResult Function(AuthStateEmpty value)? empty,
     TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
     required TResult orElse(),
   }) {
     if (regular != null) {
@@ -241,6 +253,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     required TResult Function() loading,
     required TResult Function() empty,
     required TResult Function() error,
+    required TResult Function() invalidPassword,
   }) {
     return loading();
   }
@@ -252,6 +265,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     TResult? Function()? loading,
     TResult? Function()? empty,
     TResult? Function()? error,
+    TResult? Function()? invalidPassword,
   }) {
     return loading?.call();
   }
@@ -263,6 +277,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     TResult Function()? loading,
     TResult Function()? empty,
     TResult Function()? error,
+    TResult Function()? invalidPassword,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -278,6 +293,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     required TResult Function(AuthStateLoading value) loading,
     required TResult Function(AuthStateEmpty value) empty,
     required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
   }) {
     return loading(this);
   }
@@ -289,6 +305,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     TResult? Function(AuthStateLoading value)? loading,
     TResult? Function(AuthStateEmpty value)? empty,
     TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
   }) {
     return loading?.call(this);
   }
@@ -300,6 +317,7 @@ class _$AuthStateLoading implements AuthStateLoading {
     TResult Function(AuthStateLoading value)? loading,
     TResult Function(AuthStateEmpty value)? empty,
     TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -355,6 +373,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     required TResult Function() loading,
     required TResult Function() empty,
     required TResult Function() error,
+    required TResult Function() invalidPassword,
   }) {
     return empty();
   }
@@ -366,6 +385,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     TResult? Function()? loading,
     TResult? Function()? empty,
     TResult? Function()? error,
+    TResult? Function()? invalidPassword,
   }) {
     return empty?.call();
   }
@@ -377,6 +397,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     TResult Function()? loading,
     TResult Function()? empty,
     TResult Function()? error,
+    TResult Function()? invalidPassword,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -392,6 +413,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     required TResult Function(AuthStateLoading value) loading,
     required TResult Function(AuthStateEmpty value) empty,
     required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
   }) {
     return empty(this);
   }
@@ -403,6 +425,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     TResult? Function(AuthStateLoading value)? loading,
     TResult? Function(AuthStateEmpty value)? empty,
     TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
   }) {
     return empty?.call(this);
   }
@@ -414,6 +437,7 @@ class _$AuthStateEmpty implements AuthStateEmpty {
     TResult Function(AuthStateLoading value)? loading,
     TResult Function(AuthStateEmpty value)? empty,
     TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -469,6 +493,7 @@ class _$AuthStateError implements AuthStateError {
     required TResult Function() loading,
     required TResult Function() empty,
     required TResult Function() error,
+    required TResult Function() invalidPassword,
   }) {
     return error();
   }
@@ -480,6 +505,7 @@ class _$AuthStateError implements AuthStateError {
     TResult? Function()? loading,
     TResult? Function()? empty,
     TResult? Function()? error,
+    TResult? Function()? invalidPassword,
   }) {
     return error?.call();
   }
@@ -491,6 +517,7 @@ class _$AuthStateError implements AuthStateError {
     TResult Function()? loading,
     TResult Function()? empty,
     TResult Function()? error,
+    TResult Function()? invalidPassword,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -506,6 +533,7 @@ class _$AuthStateError implements AuthStateError {
     required TResult Function(AuthStateLoading value) loading,
     required TResult Function(AuthStateEmpty value) empty,
     required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
   }) {
     return error(this);
   }
@@ -517,6 +545,7 @@ class _$AuthStateError implements AuthStateError {
     TResult? Function(AuthStateLoading value)? loading,
     TResult? Function(AuthStateEmpty value)? empty,
     TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
   }) {
     return error?.call(this);
   }
@@ -528,6 +557,7 @@ class _$AuthStateError implements AuthStateError {
     TResult Function(AuthStateLoading value)? loading,
     TResult Function(AuthStateEmpty value)? empty,
     TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -539,4 +569,125 @@ class _$AuthStateError implements AuthStateError {
 
 abstract class AuthStateError implements AuthState {
   factory AuthStateError() = _$AuthStateError;
+}
+
+/// @nodoc
+abstract class _$$AuthStateInvalidPasswordCopyWith<$Res> {
+  factory _$$AuthStateInvalidPasswordCopyWith(_$AuthStateInvalidPassword value,
+          $Res Function(_$AuthStateInvalidPassword) then) =
+      __$$AuthStateInvalidPasswordCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$AuthStateInvalidPasswordCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$AuthStateInvalidPassword>
+    implements _$$AuthStateInvalidPasswordCopyWith<$Res> {
+  __$$AuthStateInvalidPasswordCopyWithImpl(_$AuthStateInvalidPassword _value,
+      $Res Function(_$AuthStateInvalidPassword) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$AuthStateInvalidPassword implements AuthStateInvalidPassword {
+  _$AuthStateInvalidPassword();
+
+  @override
+  String toString() {
+    return 'AuthState.invalidPassword()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AuthStateInvalidPassword);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() regular,
+    required TResult Function() loading,
+    required TResult Function() empty,
+    required TResult Function() error,
+    required TResult Function() invalidPassword,
+  }) {
+    return invalidPassword();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? regular,
+    TResult? Function()? loading,
+    TResult? Function()? empty,
+    TResult? Function()? error,
+    TResult? Function()? invalidPassword,
+  }) {
+    return invalidPassword?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? regular,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    TResult Function()? error,
+    TResult Function()? invalidPassword,
+    required TResult orElse(),
+  }) {
+    if (invalidPassword != null) {
+      return invalidPassword();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AuthStateRegular value) regular,
+    required TResult Function(AuthStateLoading value) loading,
+    required TResult Function(AuthStateEmpty value) empty,
+    required TResult Function(AuthStateError value) error,
+    required TResult Function(AuthStateInvalidPassword value) invalidPassword,
+  }) {
+    return invalidPassword(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AuthStateRegular value)? regular,
+    TResult? Function(AuthStateLoading value)? loading,
+    TResult? Function(AuthStateEmpty value)? empty,
+    TResult? Function(AuthStateError value)? error,
+    TResult? Function(AuthStateInvalidPassword value)? invalidPassword,
+  }) {
+    return invalidPassword?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AuthStateRegular value)? regular,
+    TResult Function(AuthStateLoading value)? loading,
+    TResult Function(AuthStateEmpty value)? empty,
+    TResult Function(AuthStateError value)? error,
+    TResult Function(AuthStateInvalidPassword value)? invalidPassword,
+    required TResult orElse(),
+  }) {
+    if (invalidPassword != null) {
+      return invalidPassword(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AuthStateInvalidPassword implements AuthState {
+  factory AuthStateInvalidPassword() = _$AuthStateInvalidPassword;
 }
