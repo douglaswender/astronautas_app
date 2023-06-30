@@ -5,7 +5,7 @@ import 'package:astronautas_app/app/modules/auth/domain/repositories/login_repos
 import 'package:astronautas_app/app/modules/auth/domain/usecases/login/login_usecase.dart';
 import 'package:astronautas_app/app/modules/auth/domain/usecases/login/login_usecase_imp.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import './auth_page.dart';
+import 'presentation/auth_page.dart';
 
 class AuthModule extends Module {
   @override
