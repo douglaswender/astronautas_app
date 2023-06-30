@@ -3,7 +3,8 @@ import 'package:astronautas_app/app/modules/auth/domain/usecases/login/login_use
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:astronautas_app/app/modules/auth/controller/auth_state.dart';
+
+import 'auth_state.dart';
 
 class AuthBloc extends Cubit<AuthState> {
   TextEditingController emailController = TextEditingController();

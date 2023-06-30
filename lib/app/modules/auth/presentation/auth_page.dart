@@ -1,14 +1,16 @@
 import 'package:astronautas_app/app/core/app_colors.dart';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:astronautas_app/app/modules/auth/controller/auth_cubit.dart';
-import 'package:astronautas_app/app/modules/auth/controller/auth_state.dart';
 import 'package:astronautas_app/app/widgets/button_widget.dart';
 import 'package:astronautas_app/app/widgets/loading_dialog.dart';
 import 'package:astronautas_app/app/widgets/text_field_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'controller/auth_cubit.dart';
+import 'controller/auth_state.dart';
 
 class AuthPage extends StatefulWidget {
   final AuthBloc controller;
