@@ -1,7 +1,12 @@
 import 'dart:convert';
-
+import 'package:astronautas_app/app/modules/home/domain/entities/client_entity.dart';
+import 'package:astronautas_app/app/modules/home/domain/entities/motoboy_entity.dart';
 import 'package:astronautas_app/app/modules/home/domain/entities/user_entity.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client/get_client_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client_deliveries/get_client_deliveries_usecase.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/get_logged_user/get_logged_user_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy/get_motoboy_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy_deliveries/get_motoboy_deliveries_usecase.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/logout/logout_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,12 +24,13 @@ class HomeController extends Cubit<HomeState> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   UserEntity user = UserEntity();
+  ClientEntity? clientEntity;
   HomeController() : super(HomeState.empty());
   List<DeliveryModel> lastRequests = [];
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController qtdEntrega = TextEditingController();
   Stream<QuerySnapshot>? lastRequestStream;
-  MotoboyModel? motoboy;
+  MotoboyEntity? motoboy;
   bool trabalhando = false;
 
   String get openWhatsapp =>
@@ -51,31 +57,30 @@ class HomeController extends Cubit<HomeState> {
     getLoggedUser.fold((l) => emit(HomeState.error()), (r) => user = r);
 
     if (user.tipo == 'cliente') {
-      final cliente = await db
-          .collection('clientes')
-          .doc(email)
-          .get()
-          .then((value) => value.data());
-      lastRequestStream = db
-          .collection('entregas')
-          .where('cliente', isEqualTo: cliente)
-          .orderBy('timestamp', descending: true)
-          .limit(10)
-          .snapshots();
-    } else {
-      motoboy = await db
-          .collection('motoboys')
-          .doc(email)
-          .get()
-          .then((value) => MotoboyModel.fromMap(value.data()!));
-      trabalhando = motoboy?.trabalhando ?? false;
+      final getClient =
+          await Modular.get<GetClientUsecase>()(email: email ?? '');
 
-      lastRequestStream = db
-          .collection('entregas')
-          .where('motoboy', isEqualTo: motoboy!.toMapDelivery())
-          .orderBy('timestamp', descending: true)
-          .limit(10)
-          .snapshots();
+      getClient.fold((l) => emit(HomeState.error()), (r) => clientEntity = r);
+
+      final getDeliveries = await Modular.get<GetClientDeliveriesUsecase>()(
+          client: clientEntity!);
+
+      getDeliveries.fold(
+          (l) => emit(HomeState.error()), (r) => lastRequestStream = r);
+    } else {
+      final getMotoboy =
+          await Modular.get<GetMotoboyUsecase>()(email: email ?? '');
+
+      getMotoboy.fold((l) => emit(HomeState.error()), (r) {
+        trabalhando = r.trabalhando ?? false;
+        motoboy = r;
+      });
+
+      final getDeliveries =
+          await Modular.get<GetMotoboyDeliveriesUsecase>()(motoboy: motoboy!);
+
+      getDeliveries.fold(
+          (l) => emit(HomeState.error()), (r) => lastRequestStream = r);
     }
     //user = user.copyWith(email: email, tipo: userData['tipo']);
     if (Timestamp.now().compareTo(user.validoAte!) == 1) {

@@ -6,8 +6,16 @@ import 'package:astronautas_app/app/modules/home/data/repositories/logout_reposi
 import 'package:astronautas_app/app/modules/home/data/repositories/user_repository_imp.dart';
 import 'package:astronautas_app/app/modules/home/domain/repositories/logout_repository.dart';
 import 'package:astronautas_app/app/modules/home/domain/repositories/user_repository.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client/get_client_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client/get_client_usecase_imp.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client_deliveries/get_client_deliveries_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_client_deliveries/get_client_deliveries_usecase_imp.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/get_logged_user/get_logged_user_usecase.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/get_logged_user/get_logged_user_usecase_imp.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy/get_motoboy_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy/get_motoboy_usecase_imp.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy_deliveries/get_motoboy_deliveries_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_motoboy_deliveries/get_motoboy_deliveries_usecase_imp.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/logout/logout_usecase.dart';
 import 'package:astronautas_app/app/modules/home/domain/usecases/logout/logout_usecase_imp.dart';
 import 'package:astronautas_app/app/modules/home/unavailable_page.dart';
@@ -38,7 +46,12 @@ class HomeModule extends Module {
     Bind.lazySingleton<LogoutUsecase>((i) => LogoutUsecaseImp(i.get())),
     Bind.lazySingleton<GetLoggedUserUsecase>(
         (i) => GetLoggedUserUsecaseImp(i.get())),
-
+    Bind.lazySingleton<GetClientUsecase>((i) => GetClientUsecaseImp(i.get())),
+    Bind.lazySingleton<GetClientDeliveriesUsecase>(
+        (i) => GetClientDeliveriesUsecaseImp(i.get())),
+    Bind.lazySingleton<GetMotoboyUsecase>((i) => GetMotoboyUsecaseImp(i.get())),
+    Bind.lazySingleton<GetMotoboyDeliveriesUsecase>(
+        (i) => GetMotoboyDeliveriesUsecaseImp(i.get())),
     //controllers
     Bind.lazySingleton((i) => HomeController()),
   ];
