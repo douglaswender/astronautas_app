@@ -1,22 +1,24 @@
 import 'dart:convert';
 
+import 'package:astronautas_app/app/modules/home/domain/entities/user_entity.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/get_logged_user/get_logged_user_usecase.dart';
+import 'package:astronautas_app/app/modules/home/domain/usecases/logout/logout_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:astronautas_app/app/core/notification_service.dart';
 import 'package:astronautas_app/app/modules/home/cubit/delivery_model.dart';
 import 'package:astronautas_app/app/modules/home/cubit/home_state.dart';
 import 'package:astronautas_app/app/modules/home/cubit/motoboy_model.dart';
-import 'package:astronautas_app/app/modules/home/cubit/user_model.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:ntp/ntp.dart';
 
 class HomeController extends Cubit<HomeState> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  UserModel user = UserModel();
+  UserEntity user = UserEntity();
   HomeController() : super(HomeState.empty());
   List<DeliveryModel> lastRequests = [];
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -31,27 +33,22 @@ class HomeController extends Cubit<HomeState> {
   Future<void> logout() async {
     emit(HomeState.loading());
 
-    final userRef = db.collection('usuarios').doc(user.email!);
-    List currentTokens =
-        await userRef.get().then((value) => value.data()?['tokens'] ?? []);
-    currentTokens.remove(await FirebaseMessaging.instance.getToken());
-    userRef.update({
-      'tokens': currentTokens,
-    });
-    await auth.signOut();
-    emit(HomeState.unauthenticated());
+    final response = await Modular.get<LogoutUsecase>()(email: user.email!);
+
+    response.fold(
+      (l) => emit(HomeState.error()),
+      (r) => emit(HomeState.unauthenticated()),
+    );
   }
 
-  Future<void> getLoggedUser() async {
+  Future<void> initialize() async {
     emit(HomeState.loading());
     lastRequests.clear();
     final email = auth.currentUser?.email;
-    final userData = await db
-        .collection('usuarios')
-        .doc(email)
-        .get()
-        .then((value) => value.data());
-    user = UserModel.fromMap(userData!).copyWith(email: email);
+    final getLoggedUser =
+        await Modular.get<GetLoggedUserUsecase>()(email: email ?? '');
+
+    getLoggedUser.fold((l) => emit(HomeState.error()), (r) => user = r);
 
     if (user.tipo == 'cliente') {
       final cliente = await db
